@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 interface user {
     name : string,
 }
-function page() {
+function Data() {
     const [data, setdata]= useState<user[]>([])
 
     useEffect(()=>{
@@ -28,4 +28,4 @@ function page() {
   )
 }
 
-export default page
+export default Data

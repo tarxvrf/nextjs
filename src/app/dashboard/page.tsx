@@ -1,12 +1,12 @@
 "use client"
-import React, { FormEvent, useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 
-function dashboard() {
+function Dashboard() {
     const router = useRouter();
     const [file,setfile]= useState<File | null>(null);
 
-    const hand= (event: { preventDefault: () => void; }) => {
+    const hand= () => {
       
        fetch('https://go-download-production.up.railway.app/logout',{
         method: "POST",
@@ -46,7 +46,7 @@ function dashboard() {
         body: formdata,
       });
 
-      const hasil = await res.json();
+      
      if(res.ok){
       alert("berhasil upload")
      }else{
@@ -74,4 +74,4 @@ function dashboard() {
   )
 }
 
-export default dashboard
+export default Dashboard
