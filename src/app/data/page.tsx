@@ -1,23 +1,27 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 
+
+interface user {
+    name : string,
+}
 function page() {
-    const [data, setdata]= useState([])
+    const [data, setdata]= useState<user[]>([])
 
     useEffect(()=>{
-      fetch("https://go-download-production.up.railway.app/users").then(res=>{
-        return res.json()
-      }).then(data=>setdata(data))
-    })
-  return (
+      fetch("https://go-download-production.up.railway.app/users")
+      .then(response => response.json()).then(datax => setdata(datax.message))
+    },[])
+  
+   return (
     <div>
 
-    <ul>
-        {data.map((rs,index)=>
-        <li key={index}> {rs.name} </li>
-        
-        )}
-    </ul>
+    <div>
+    {data?.map((re,index)=>
+    <li key={index}>{re.name }</li>
+    
+    )}
+  </div>
 
 
     </div>
