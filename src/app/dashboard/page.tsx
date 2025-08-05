@@ -1,9 +1,12 @@
 "use client"
 import React, {  useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
 function Dashboard() {
     const router = useRouter();
+    const feth = useQueryClient();
+
     const [file,setfile]= useState<File | null>(null);
 
     const hand= () => {
@@ -34,7 +37,7 @@ function Dashboard() {
           router.push('/') // redirect ke login kalau belum login
         }
       })
-  }, [])
+  }, [router])
 
   const upload = async (e : React.FormEvent ) =>{
     e.preventDefault()  
