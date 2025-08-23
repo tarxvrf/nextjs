@@ -45,22 +45,23 @@ function Data() {
   const [startdate, settanggal] = useState("");
   const [bulan, setbulan] = useState("");
   const [tombol, settombol] = useState("submit");
+  const [progres, setprogres] = useState(0);
 
   const capaionprogres = useMemo(() => {
-    return data?.filter((item) => item.status === "Onprogres").length
-  }, [data])
+    return data?.filter((item) => item.status === "Onprogres").length;
+  }, [data]);
   const capaitertarik = useMemo(() => {
-    return data?.filter((item) => item.status === "Tertarik").length
-  }, [data])
+    return data?.filter((item) => item.status === "Tertarik").length;
+  }, [data]);
   const capaideal = useMemo(() => {
-    return data?.filter((item) => item.status === "Deal").length
-  }, [data])
+    return data?.filter((item) => item.status === "Deal").length;
+  }, [data]);
   const capaibatal = useMemo(() => {
-    return data?.filter((item) => item.status === "Batal").length
-  }, [data])
+    return data?.filter((item) => item.status === "Batal").length;
+  }, [data]);
   const totalprospek = useMemo(() => {
-    return data?.filter((item) => item.status).length
-  }, [data])
+    return data?.filter((item) => item.status).length;
+  }, [data]);
   // Logic Filterc
   const filtered = useMemo(() => {
     return data?.filter((item) => {
@@ -94,7 +95,7 @@ function Data() {
   //TAMBAH DATA
   const { mutate, isError } = useMutation({
     mutationFn: Postdata,
-    onSuccess: () => { },
+    onSuccess: () => {},
   });
 
   function submitdata(event: React.FormEvent) {
@@ -252,7 +253,6 @@ function Data() {
             maxLength={200}
           ></textarea>
           <button className="btn btn-info btn-xs">{tombol}</button>
-
         </form>
         {/** PENCARIAN **/}
         <div className="flex gap-5 w-2xl pt-6">
@@ -293,7 +293,11 @@ function Data() {
           </select>
 
           <label htmlFor="" className="input flex gap-1">
-            <input value={startdate} type="date" onChange={(e) => settanggal(e.target.value)} />
+            <input
+              value={startdate}
+              type="date"
+              onChange={(e) => settanggal(e.target.value)}
+            />
           </label>
 
           <button className="btn btn-error text-xs" onClick={handleclear}>
@@ -371,7 +375,6 @@ function Data() {
               ))}
             </tbody>
           </table>
-
         </div>
         <div className="mb-10">
           <h3>Pencapaian Onprogres = {capaionprogres}</h3>
@@ -381,12 +384,15 @@ function Data() {
           <h1 className="text-xl font-bold">Total Prospek = {totalprospek}</h1>
         </div>
 
-
         <div
           className="radial-progress bg-primary text-primary-content border-primary border-4"
-          style={{ "--value": 70 }  as React.CSSProperties } aria-valuenow={70} role="progressbar">
+          style={{ "--value": 70 } as React.CSSProperties}
+          aria-valuenow={70}
+          role="progressbar"
+        >
           70%
         </div>
+       
       </div>
     </div>
   );
