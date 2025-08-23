@@ -46,7 +46,22 @@ function Data() {
   const [bulan, setbulan] = useState("");
   const [tombol, settombol] = useState("submit");
 
-  // Logic Filter
+  const capaionprogres = useMemo(() => {
+    return data?.filter((item) => item.status === "Onprogres").length
+  }, [data])
+  const capaitertarik = useMemo(() => {
+    return data?.filter((item) => item.status === "Tertarik").length
+  }, [data])
+  const capaideal = useMemo(() => {
+    return data?.filter((item) => item.status === "Deal").length
+  }, [data])
+  const capaibatal = useMemo(() => {
+    return data?.filter((item) => item.status === "Batal").length
+  }, [data])
+  const totalprospek = useMemo(() => {
+    return data?.filter((item) => item.status).length
+  }, [data])
+  // Logic Filterc
   const filtered = useMemo(() => {
     return data?.filter((item) => {
       const bysearch = item.name
@@ -79,7 +94,7 @@ function Data() {
   //TAMBAH DATA
   const { mutate, isError } = useMutation({
     mutationFn: Postdata,
-    onSuccess: () => {},
+    onSuccess: () => { },
   });
 
   function submitdata(event: React.FormEvent) {
@@ -169,7 +184,7 @@ function Data() {
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <div>
+    <div className="mx-auto px-4 py-10">
       <div>
         <form
           className="w-full grid grid-cols-4 gap-2 px-2  max-w-6xl"
@@ -238,53 +253,53 @@ function Data() {
           ></textarea>
           <button className="btn btn-info btn-xs">{tombol}</button>
 
-          {/** PENCARIAN **/}
-          <div className="flex gap-5 border w-2xl">
-            <div>
-              <input
-                value={search}
-                type="text"
-                placeholder="search"
-                onChange={(e) => setsearch(e.target.value)}
-                className="input py-3 mb-3"
-              />
-            </div>
-            <select
-              onChange={(e) => setstatus(e.target.value)}
-              required
-              value={status}
-              className="select "
-            >
-              <option value="">--Pilih status--</option>
-              <option value="Onprogres">Onprogres</option>
-              <option value="Tertarik">Tertarik</option>
-              <option value="Batal">Batal</option>
-              <option value="Deal">Deal</option>
-            </select>
-
-            <select
-              onChange={(e) => setbulan(e.target.value)}
-              required
-              value={bulan}
-              className="select"
-            >
-              <option value={""}>Pilih bulan</option>
-              {unikbulan.map((item, i) => (
-                <option key={i} value={item}>
-                  {item}
-                </option>
-              ))}
-            </select>
-
-            <label htmlFor="" className="input flex gap-1">
-              <input value={startdate} type="date" onChange={(e) => settanggal(e.target.value)} />
-            </label>
-
-            <button className="btn btn-error text-xs" onClick={handleclear}>
-              clear
-            </button>
-          </div>
         </form>
+        {/** PENCARIAN **/}
+        <div className="flex gap-5 w-2xl pt-6">
+          <div>
+            <input
+              value={search}
+              type="text"
+              placeholder="search"
+              onChange={(e) => setsearch(e.target.value)}
+              className="input py-3 mb-3"
+            />
+          </div>
+          <select
+            onChange={(e) => setstatus(e.target.value)}
+            required
+            value={status}
+            className="select "
+          >
+            <option value="">--Pilih status--</option>
+            <option value="Onprogres">Onprogres</option>
+            <option value="Tertarik">Tertarik</option>
+            <option value="Batal">Batal</option>
+            <option value="Deal">Deal</option>
+          </select>
+
+          <select
+            onChange={(e) => setbulan(e.target.value)}
+            required
+            value={bulan}
+            className="select"
+          >
+            <option value={""}>Pilih bulan</option>
+            {unikbulan.map((item, i) => (
+              <option key={i} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+
+          <label htmlFor="" className="input flex gap-1">
+            <input value={startdate} type="date" onChange={(e) => settanggal(e.target.value)} />
+          </label>
+
+          <button className="btn btn-error text-xs" onClick={handleclear}>
+            clear
+          </button>
+        </div>
       </div>
       <div>
         <div className="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 pt-10">
@@ -356,6 +371,21 @@ function Data() {
               ))}
             </tbody>
           </table>
+
+        </div>
+        <div className="mb-10">
+          <h3>Pencapaian Onprogres = {capaionprogres}</h3>
+          <h3>Pencapaian Tertarik = {capaitertarik}</h3>
+          <h3>Pencapaian Batal = {capaibatal}</h3>
+          <h3>Pencapaian Onprogres = {capaideal}</h3>
+          <h1 className="text-xl font-bold">Total Prospek = {totalprospek}</h1>
+        </div>
+
+
+        <div
+          className="radial-progress bg-primary text-primary-content border-primary border-4"
+          style={{ "--value": 70 }  as React.CSSProperties } aria-valuenow={70} role="progressbar">
+          70%
         </div>
       </div>
     </div>
