@@ -12,30 +12,45 @@ import dayjs from "dayjs";
 
 
 function Data() {
- 
-   interface user {
-  id: number;
-  name: string;
-  lokasi: string;
-  telepon: string;
-  picgedung: string;
-  tanggal: string;
-  status: string;
-  keterangan: string;
-}
 
-      const initform = {
+  interface user {
+    id: number;
+    namalokasi: string,
+    alamatlokasi: string,
+    telepon: string,
+    picgedung: string,
+    tanggal: string,
+    operator: string,
+    sistemparkir: string,
+    pk: string,
+    pm: string,
+    fu1:string,
+    fu2:string,
+    fu3:string,
+    kondisi: string,
+    kontrak: string,
+    status: string,
+    keterangan: string,
+  }
+
+  const initform = {
     id: 0,
-    name: "",
-    lokasi: "",
+    namalokasi: "",
+    alamatlokasi: "",
     telepon: "",
     picgedung: "",
     tanggal: "",
+    operator: "",
+    sistemparkir: "",
+    pk: "",
+    pm: "",
+    kondisi: "",
+    kontrak: "",
     status: "",
     keterangan: "",
   };
-   const [form, setform] = useState(initform);
- // LIHAT DAATA
+  const [form, setform] = useState(initform);
+  // LIHAT DAATA
 
   const { data, isLoading } = useQuery<user[]>({
     queryKey: ["message"],
@@ -43,17 +58,13 @@ function Data() {
     refetchInterval: 2000,
   });
 
-  
+
   const [status, setstatus] = useState("");
   const [search, setsearch] = useState("");
   const [startdate, settanggal] = useState("");
   const [bulan, setbulan] = useState("");
 
-   const { mutate, isError } = useMutation({
-          mutationFn: Postdata,
-          onSuccess: () => { },
-      });
-  
+
 
   const capaionprogres = useMemo(() => {
     return data?.filter((item) => item.status === "Onprogres").length;
@@ -73,7 +84,7 @@ function Data() {
   // Logic Filterc
   const filtered = useMemo(() => {
     return data?.filter((item) => {
-      const bysearch = item.name
+      const bysearch = item.namalokasi
         .toLocaleLowerCase()
         .includes(search.toLocaleLowerCase());
       const bystatus = status === item.status || status == "";
@@ -127,26 +138,23 @@ function Data() {
   const [tombol, settombol] = useState("submit");
 
   const Edit = (
-    e: React.FormEvent,
-    id: number,
-    name: string,
-    lokasi: string,
-    telepon: string,
-    picgedung: string,
-    tanggal: string,
-    status: string,
-    keterangan: string
-  ) => {
+    e: React.FormEvent, id: number, namalokasi: string, alamatlokasi: string, telepon: string, picgedung: string, tanggal: string, operator: string, sistemparkir: string, pk: string, pm: string, kondisi: string, kontrak: string, status: string, keterangan: string) => {
     e.preventDefault();
     settombol("Update");
     setform({
       ...form,
       id,
-      name,
-      lokasi,
+      namalokasi,
+      alamatlokasi,
       telepon,
       picgedung,
       tanggal,
+      operator,
+      sistemparkir,
+      pk,
+      pm,
+      kondisi,
+      kontrak,
       status,
       keterangan,
     });
@@ -159,7 +167,7 @@ function Data() {
   return (
     <div className="mx-auto px-4 py-10">
       <div>
-        
+
         {/** PENCARIAN **/}
         <div className="flex gap-5 w-2xl pt-6">
           <div>
@@ -232,15 +240,15 @@ function Data() {
               {filtered?.map((item, index) => (
                 <tr key={index}>
                   <th key={index}>{item.id}</th>
-                  <td>{item.name}</td>
-                  <td>
-                    <Link
+                  <td>  <Link
                       className="text-blue-600 font-bold underline"
                       href={"/survey"}
                       target="_blank"
-                    >
-                      {item.lokasi}
-                    </Link>
+                    >{item.namalokasi}</Link></td>
+                  <td>
+                  
+                      {item.alamatlokasi}
+                    
                   </td>
                   <td>{item.telepon}</td>
                   <td>{item.picgedung}</td>
@@ -264,13 +272,19 @@ function Data() {
                         Edit(
                           e,
                           item.id,
-                          item.name,
-                          item.lokasi,
+                          item.namalokasi,
+                          item.alamatlokasi,
                           item.telepon,
                           item.picgedung,
                           item.tanggal,
+                          item.operator,
+                          item.sistemparkir,
+                          item.pk,
+                          item.pm,
+                          item.kondisi,
+                          item.kontrak,
                           item.status,
-                          item.keterangan
+                          item.keterangan,
                         )
                       }
                     >
@@ -298,7 +312,7 @@ function Data() {
         >
           70%
         </div>
-       
+
       </div>
     </div>
   );

@@ -1,27 +1,38 @@
 import { stat } from "fs";
 
-type User = {
-  name: string;
-  lokasi: string;
-  telepon: string;
-  picgedung: string;
-  tanggal: string;
-  status: string;
-  keterangan: string;
+interface User {
+
+  namalokasi: string,
+  alamatlokasi: string,
+  telepon: string,
+  picgedung: string,
+  tanggal: string,
+  operator: string,
+  sistemparkir: string,
+  pk: string,
+  pm: string,
+  kondisi: string,
+  kontrak: string,
+  status: string,
+  keterangan: string,
 };
 
 export const Postdata = async ({
-  name,
-  lokasi,
+  namalokasi,
+  alamatlokasi,
   telepon,
   picgedung,
   tanggal,
   status,
   keterangan,
+  operator, sistemparkir, pk, pm, kondisi, kontrak
 }: User) => {
   const newdata = {
-    name: name,
-    lokasi: lokasi,
+    namalokasi: namalokasi,
+    alamatlokasi: alamatlokasi,
+    operator: operator,
+    sistemparkir: sistemparkir,
+    pk: pk, pm: pm, kondisi: kondisi, kontrak: kontrak,
     telepon: telepon,
     picgedung: picgedung,
     tanggal: tanggal,

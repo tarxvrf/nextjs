@@ -6,27 +6,22 @@ import { useMutation } from '@tanstack/react-query';
 function page() {
     const initform = {
         id: 0,
-        name: "",
-        lokasi: "",
+        namalokasi: "",
+        alamatlokasi: "",
         telepon: "",
         picgedung: "",
         tanggal: "",
+        operator:"",
+        sistemparkir:"",
+        pk:"",
+        pm:"",
+        kondisi:"",
+        kontrak:"",
         status: "",
         keterangan: "",
     };
     const [tombol, settombol] = useState("submit");
     const [form, setform] = useState(initform);
-
-    interface user {
-        id: number;
-        name: string;
-        lokasi: string;
-        telepon: string;
-        picgedung: string;
-        tanggal: string;
-        status: string;
-        keterangan: string;
-    }
 
 
     //TAMBAH DATA
@@ -41,32 +36,24 @@ function page() {
         event.preventDefault();
         if (tombol == "submit") {
             mutate({
-                name: form.name,
-                lokasi: form.lokasi,
+                namalokasi: form.namalokasi ,
+                alamatlokasi: form.alamatlokasi,
                 telepon: form.telepon,
                 picgedung: form.picgedung,
                 tanggal: form.tanggal,
                 status: form.status,
+                operator:form.operator,
+                sistemparkir:form.sistemparkir,
+                pk:form.pk,
+                pm:form.pm,
+                kondisi:form.kondisi,
+                kontrak:form.kontrak,
                 keterangan: form.keterangan,
             });
 
             setform(initform);
         }
-        if (tombol == "Update") {
-            updatem({
-                id: form.id,
-                name: form.name,
-                lokasi: form.lokasi,
-                telepon: form.telepon,
-                picgedung: form.picgedung,
-                tanggal: form.tanggal,
-                status: form.status,
-                keterangan: form.keterangan,
-            });
-            setform({ ...form, name: "" });
-            settombol("submit");
-            setform(initform);
-        }
+      
     }
 
 
@@ -109,20 +96,20 @@ function page() {
                     onSubmit={submitdata}
                 >
                     <input
-                        value={form.name}
+                        value={form.namalokasi}
                         className="input w-full rounded-2xl shadow-2xl shadow-amber-200"
                         type="text"
                         placeholder="Nama Lokasi"
                         required
-                        onChange={(e) => setform({ ...form, name: e.target.value })}
+                        onChange={(e) => setform({ ...form, namalokasi: e.target.value })}
                     />
                     <input
-                        value={form.lokasi}
+                        value={form.alamatlokasi}
                         className="input w-full rounded-2xl shadow-2xl shadow-amber-200"
                         type="text"
                         required
                         placeholder="Alamat Lokasi"
-                        onChange={(e) => setform({ ...form, lokasi: e.target.value })}
+                        onChange={(e) => setform({ ...form, alamatlokasi: e.target.value })}
                     />
                     <input
                         value={form.telepon}
@@ -140,29 +127,29 @@ function page() {
                         placeholder="PIC Gedung"
                         onChange={(e) => setform({ ...form, picgedung: e.target.value })}
                     />
+                    <div className='grid grid-cols-2 gap-1'>
                     <input
-                        type="date"
-                        name=""
+                        type="date"                        
                         value={form.tanggal}
                         onChange={(e) => setform({ ...form, tanggal: e.target.value })}
-                        className="input w-full rounded-2xl shadow-2xl shadow-amber-200"
+                        className="input max-w-sm rounded-2xl shadow-2xl shadow-amber-200"
                         required
                     />
                     <input
                         type="input"
                         name="operator"
-                        value={form.tanggal}
-                        onChange={(e) => setform({ ...form, tanggal: e.target.value })}
-                        className="input w-full rounded-2xl shadow-2xl shadow-amber-200"
+                        value={form.operator}
+                        onChange={(e) => setform({ ...form, operator: e.target.value })}
+                        className="input max-w-sm rounded-2xl shadow-2xl shadow-amber-200"
                         placeholder='Operator'
                         required
-                    />
-                    <div className='grid grid-cols-4 gap-1'>
+                    /></div>
+                    <div className='grid sm:grid-cols-3 gap-1'>
                         <select
-                            onChange={(e) => setform({ ...form, status: e.target.value })}
+                            onChange={(e) => setform({ ...form,sistemparkir: e.target.value })}
                             required
                             className="select w-full rounded-2xl shadow-2xl shadow-amber-200"
-                            value={form.status}
+                            value={form.sistemparkir}
                         >
                             <option value="">--Sistem Parkir--</option>
                             <option value="Warga">Warga</option>
@@ -170,22 +157,21 @@ function page() {
                             <option value="Manual">Manual</option>
                             <option value="Kosong">Kosong</option>
                         </select>
-                        <input type="number" min={0} max={10} className="input w-full rounded-2xl shadow-2xl shadow-amber-200" placeholder='PK' />
-                        <input type="number" min={0} max={10} className="input w-full rounded-2xl shadow-2xl shadow-amber-200" placeholder='PM' />
-                        <input type="Lainnya" className="input w-full rounded-2xl shadow-2xl shadow-amber-200" placeholder='Lainnya' />
+                        <input  onChange={(e) => setform({ ...form, pk: e.target.value })} value={form.pk} type="number" min={0} max={10} className="input w-full rounded-2xl shadow-2xl shadow-amber-200" placeholder='PK' />
+                        <input  onChange={(e) => setform({ ...form, pm: e.target.value })} value={form.pm} type="number" min={0} max={10} className="input w-full rounded-2xl shadow-2xl shadow-amber-200" placeholder='PM' />
                     </div>
                     <input
                         type="input"
-                        value={form.tanggal}
-                        onChange={(e) => setform({ ...form, tanggal: e.target.value })}
+                        value={form.kondisi}
+                        onChange={(e) => setform({ ...form, kondisi: e.target.value })}
                         className="input w-full rounded-2xl shadow-2xl shadow-amber-200"
                         placeholder='Kondisi Lokasi'
                         required
                     />
                     <input
                         type="input"
-                        value={form.tanggal}
-                        onChange={(e) => setform({ ...form, tanggal: e.target.value })}
+                        value={form.kontrak}
+                        onChange={(e) => setform({ ...form, kontrak: e.target.value })}
                         className="input w-full rounded-2xl shadow-2xl shadow-amber-200"
                         placeholder='Akhir Kontrak'
                         required
@@ -221,7 +207,3 @@ function page() {
 }
 
 export default page
-
-function updatem(arg0: { id: number; name: string; lokasi: string; telepon: string; picgedung: string; tanggal: string; status: string; keterangan: string; }) {
-    throw new Error('Function not implemented.');
-}
