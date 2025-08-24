@@ -10,7 +10,10 @@ import { FormEvent, useMemo, useState } from "react";
 import Link from "next/link";
 import dayjs from "dayjs";
 
-interface user {
+
+function Data() {
+ 
+   interface user {
   id: number;
   name: string;
   lokasi: string;
@@ -20,9 +23,8 @@ interface user {
   status: string;
   keterangan: string;
 }
-function Data() {
-  // LIHAT DAATA
-  const initform = {
+
+      const initform = {
     id: 0,
     name: "",
     lokasi: "",
@@ -32,6 +34,8 @@ function Data() {
     status: "",
     keterangan: "",
   };
+   const [form, setform] = useState(initform);
+ // LIHAT DAATA
 
   const { data, isLoading } = useQuery<user[]>({
     queryKey: ["message"],
@@ -39,13 +43,17 @@ function Data() {
     refetchInterval: 2000,
   });
 
-  const [form, setform] = useState(initform);
+  
   const [status, setstatus] = useState("");
   const [search, setsearch] = useState("");
   const [startdate, settanggal] = useState("");
   const [bulan, setbulan] = useState("");
-  const [tombol, settombol] = useState("submit");
-  const [progres, setprogres] = useState(0);
+
+   const { mutate, isError } = useMutation({
+          mutationFn: Postdata,
+          onSuccess: () => { },
+      });
+  
 
   const capaionprogres = useMemo(() => {
     return data?.filter((item) => item.status === "Onprogres").length;
@@ -92,43 +100,6 @@ function Data() {
   };
 
   // END Logic Filter//
-  //TAMBAH DATA
-  const { mutate, isError } = useMutation({
-    mutationFn: Postdata,
-    onSuccess: () => {},
-  });
-
-  function submitdata(event: React.FormEvent) {
-    event.preventDefault();
-    if (tombol == "submit") {
-      mutate({
-        name: form.name,
-        lokasi: form.lokasi,
-        telepon: form.telepon,
-        picgedung: form.picgedung,
-        tanggal: form.tanggal,
-        status: form.status,
-        keterangan: form.keterangan,
-      });
-
-      setform(initform);
-    }
-    if (tombol == "Update") {
-      updatem({
-        id: form.id,
-        name: form.name,
-        lokasi: form.lokasi,
-        telepon: form.telepon,
-        picgedung: form.picgedung,
-        tanggal: form.tanggal,
-        status: form.status,
-        keterangan: form.keterangan,
-      });
-      setform({ ...form, name: "" });
-      settombol("submit");
-      setform(initform);
-    }
-  }
 
   // HAPUS DATA
   const { mutate: hapus, isError: iserrorhapus } = useMutation({
@@ -153,6 +124,7 @@ function Data() {
       console.log("data berhasil diupdate");
     },
   });
+  const [tombol, settombol] = useState("submit");
 
   const Edit = (
     e: React.FormEvent,
@@ -181,79 +153,13 @@ function Data() {
   };
 
   if (iserrorhapus) return <div>error hapus data</div>;
-  if (isError) return <div>gagal terkirim</div>;
+
   if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="mx-auto px-4 py-10">
       <div>
-        <form
-          className="w-full grid grid-cols-4 gap-2 px-2  max-w-6xl"
-          onSubmit={submitdata}
-        >
-          <input
-            value={form.name}
-            className="input"
-            type="text"
-            placeholder="nama"
-            required
-            onChange={(e) => setform({ ...form, name: e.target.value })}
-          />
-          <input
-            value={form.lokasi}
-            className="input"
-            type="text"
-            required
-            placeholder="Lokasi"
-            onChange={(e) => setform({ ...form, lokasi: e.target.value })}
-          />
-          <input
-            value={form.telepon}
-            className="input"
-            type="text"
-            required
-            placeholder="Telpon/Email"
-            onChange={(e) => setform({ ...form, telepon: e.target.value })}
-          />
-          <input
-            value={form.picgedung}
-            className="input"
-            type="text"
-            required
-            placeholder="PIC Gedung"
-            onChange={(e) => setform({ ...form, picgedung: e.target.value })}
-          />
-          <input
-            type="date"
-            name=""
-            value={form.tanggal}
-            onChange={(e) => setform({ ...form, tanggal: e.target.value })}
-            className="input"
-            required
-          />
-          <select
-            onChange={(e) => setform({ ...form, status: e.target.value })}
-            required
-            className="select"
-            value={form.status}
-          >
-            <option value="">--Pilih status--</option>
-            <option value="Onprogres">Onprogres</option>
-            <option value="Tertarik">Tertarik</option>
-            <option value="Batal">Batal</option>
-            <option value="Deal">Deal</option>
-          </select>
-          <textarea
-            value={form.keterangan}
-            onChange={(e) => setform({ ...form, keterangan: e.target.value })}
-            required
-            name="keterangan"
-            className="textarea"
-            placeholder="keterangan"
-            maxLength={200}
-          ></textarea>
-          <button className="btn btn-info btn-xs">{tombol}</button>
-        </form>
+        
         {/** PENCARIAN **/}
         <div className="flex gap-5 w-2xl pt-6">
           <div>
