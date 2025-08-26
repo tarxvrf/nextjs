@@ -8,7 +8,7 @@ interface Pageprops {
 async function page({ params }: Pageprops) {
 
   const { id } = await params
-  const res = await fetch(`http://localhost:8080/users/${Number(id)}`, {
+  const res = await fetch(`http://localhost:8080/users/${id}`, {
     cache: "no-store", // biar data selalu fresh
   });
   const data = await res.json();
@@ -20,14 +20,14 @@ async function page({ params }: Pageprops) {
     <div className=" max-w-6xl mx-auto sm:px-20 px-2 pt-2 sm:pt-20 ">
 
 
-      <div key={data.id}>
+      <div key={data.data.id}>
         <div className="grid sm:grid-cols-3 sm:gap-6  "  >
           <div className="card bg-base-100  shadow-lg hover:shadow-xl sm:hover:scale-150  hover:z-15  transition-all duration-200">
             <figure className="">
               <Image
                 height={500}
                 width={500}
-                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                src="/images/"
                 alt="Shoes"
               />
             </figure>
