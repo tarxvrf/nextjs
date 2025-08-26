@@ -1,21 +1,41 @@
 export const Updatedata = async ({
   id,
-  name,
-  lokasi,
+  marketing,
+  namalokasi,
+  alamatlokasi,
   telepon,
   picgedung,
   tanggal,
+  operator,
+  sistemparkir,
+  pk,
+  pm,
+  fu1,
+  fu2,
+  fu3,
+  kondisi,
+  kontrak,
   status,
   keterangan,
 }: {
   id: number;
-  name: string;
-  lokasi: string;
-  telepon: string;
-  picgedung: string;
-  tanggal: string;
-  status: string;
-  keterangan: string;
+  marketing: string,
+  namalokasi: string,
+  alamatlokasi: string,
+  telepon: string,
+  picgedung: string,
+  tanggal: string,
+  operator: string,
+  sistemparkir: string,
+  pk: string,
+  pm: string,
+  fu1: string,
+  fu2: string,
+  fu3: string,
+  kondisi: string,
+  kontrak: string,
+  status: string,
+  keterangan: string,
 }) => {
   const res = await fetch(`http://localhost:8080/edit/${id}`, {
     method: "PUT",
@@ -24,8 +44,12 @@ export const Updatedata = async ({
     },
     body: JSON.stringify({
       id: id,
-      name: name,
-      lokasi: lokasi,
+      marketing: marketing,
+      namalokasi: namalokasi,
+      alamatlokasi: alamatlokasi,
+      operator: operator,
+      sistemparkir: sistemparkir,
+      pk: pk, pm: pm,fu1:fu1,fu2:fu2,fu3:fu3, kondisi: kondisi, kontrak: kontrak,
       telepon: telepon,
       picgedung: picgedung,
       tanggal: tanggal,

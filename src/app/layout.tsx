@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 import Provider from "@/provider";
 
 const popin = Poppins({
@@ -20,7 +20,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const queryClient = new QueryClient();
+
   return (
     <html lang="en" data-theme="light">
       <body className={`${popin.variable}  antialiased`}>

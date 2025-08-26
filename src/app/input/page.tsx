@@ -1,26 +1,28 @@
 "use client"
+import Image from 'next/image';
 import React, { useState } from 'react'
 import { Postdata } from '../query/postdata';
 import { useMutation } from '@tanstack/react-query';
 
-function page() {
+function Page() {
     const initform = {
         id: 0,
+        marketing: "",
         namalokasi: "",
         alamatlokasi: "",
         telepon: "",
         picgedung: "",
         tanggal: "",
-        operator:"",
-        sistemparkir:"",
-        pk:"",
-        pm:"",
-        kondisi:"",
-        kontrak:"",
+        operator: "",
+        sistemparkir: "",
+        pk: "",
+        pm: "",
+        kondisi: "",
+        kontrak: "",
         status: "",
         keterangan: "",
     };
-    const [tombol, settombol] = useState("submit");
+   
     const [form, setform] = useState(initform);
 
 
@@ -34,26 +36,27 @@ function page() {
 
     function submitdata(event: React.FormEvent) {
         event.preventDefault();
-        if (tombol == "submit") {
+   
             mutate({
-                namalokasi: form.namalokasi ,
+                marketing: form.marketing,
+                namalokasi: form.namalokasi,
                 alamatlokasi: form.alamatlokasi,
                 telepon: form.telepon,
                 picgedung: form.picgedung,
                 tanggal: form.tanggal,
                 status: form.status,
-                operator:form.operator,
-                sistemparkir:form.sistemparkir,
-                pk:form.pk,
-                pm:form.pm,
-                kondisi:form.kondisi,
-                kontrak:form.kontrak,
+                operator: form.operator,
+                sistemparkir: form.sistemparkir,
+                pk: form.pk,
+                pm: form.pm,
+                kondisi: form.kondisi,
+                kontrak: form.kontrak,
                 keterangan: form.keterangan,
             });
 
             setform(initform);
-        }
       
+
     }
 
 
@@ -65,11 +68,13 @@ function page() {
                     <a className="btn btn-ghost text-xl">Marketing Input</a>
                 </div>
                 <div className="flex gap-2">
-                    <h1 className='text-center p-2'>Hello! Chandra</h1>
+                    <h1 className='text-center p-2'>Hello! </h1>
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                             <div className="w-10 rounded-full">
-                                <img
+                                <Image
+                                    width={100}
+                                    height={100}
                                     alt="Tailwind CSS Navbar component"
                                     src="/globe.svg" />
                             </div>
@@ -95,6 +100,17 @@ function page() {
                     className="grid gap-3 w-full pt-20 px-2 "
                     onSubmit={submitdata}
                 >
+                    <select
+                        onChange={(e) => setform({ ...form, marketing: e.target.value })}
+                        required
+                        value={form.marketing}
+                        className="select "
+                    >
+                        <option value="">--Pilih Marketing--</option>
+                        <option value="Wiwit">Wiwit</option>
+                        <option value="Candra">Candra</option>
+
+                    </select>
                     <input
                         value={form.namalokasi}
                         className="input w-full rounded-2xl shadow-2xl shadow-amber-200"
@@ -128,25 +144,25 @@ function page() {
                         onChange={(e) => setform({ ...form, picgedung: e.target.value })}
                     />
                     <div className='grid grid-cols-2 gap-1'>
-                    <input
-                        type="date"                        
-                        value={form.tanggal}
-                        onChange={(e) => setform({ ...form, tanggal: e.target.value })}
-                        className="input max-w-sm rounded-2xl shadow-2xl shadow-amber-200"
-                        required
-                    />
-                    <input
-                        type="input"
-                        name="operator"
-                        value={form.operator}
-                        onChange={(e) => setform({ ...form, operator: e.target.value })}
-                        className="input max-w-sm rounded-2xl shadow-2xl shadow-amber-200"
-                        placeholder='Operator'
-                        required
-                    /></div>
+                        <input
+                            type="date"
+                            value={form.tanggal}
+                            onChange={(e) => setform({ ...form, tanggal: e.target.value })}
+                            className="input max-w-sm rounded-2xl shadow-2xl shadow-amber-200"
+                            required
+                        />
+                        <input
+                            type="input"
+                            name="operator"
+                            value={form.operator}
+                            onChange={(e) => setform({ ...form, operator: e.target.value })}
+                            className="input max-w-sm rounded-2xl shadow-2xl shadow-amber-200"
+                            placeholder='Operator'
+                            required
+                        /></div>
                     <div className='grid sm:grid-cols-3 gap-1'>
                         <select
-                            onChange={(e) => setform({ ...form,sistemparkir: e.target.value })}
+                            onChange={(e) => setform({ ...form, sistemparkir: e.target.value })}
                             required
                             className="select w-full rounded-2xl shadow-2xl shadow-amber-200"
                             value={form.sistemparkir}
@@ -157,8 +173,8 @@ function page() {
                             <option value="Manual">Manual</option>
                             <option value="Kosong">Kosong</option>
                         </select>
-                        <input  onChange={(e) => setform({ ...form, pk: e.target.value })} value={form.pk} type="number" min={0} max={10} className="input w-full rounded-2xl shadow-2xl shadow-amber-200" placeholder='PK' />
-                        <input  onChange={(e) => setform({ ...form, pm: e.target.value })} value={form.pm} type="number" min={0} max={10} className="input w-full rounded-2xl shadow-2xl shadow-amber-200" placeholder='PM' />
+                        <input onChange={(e) => setform({ ...form, pk: e.target.value })} value={form.pk} type="number" min={0} max={10} className="input w-full rounded-2xl shadow-2xl shadow-amber-200" placeholder='PK' />
+                        <input onChange={(e) => setform({ ...form, pm: e.target.value })} value={form.pm} type="number" min={0} max={10} className="input w-full rounded-2xl shadow-2xl shadow-amber-200" placeholder='PM' />
                     </div>
                     <input
                         type="input"
@@ -198,7 +214,7 @@ function page() {
                         maxLength={200}
                     ></textarea>
                     <div className=''>
-                        <button className="btn btn-success hover:bg-yellow-500  info btn-sm w-32 rounded-3xl ">{tombol}</button>
+                        <button className="btn btn-success hover:bg-yellow-500  info btn-sm w-32 rounded-3xl ">kirim</button>
                     </div>
                 </form>
             </div>
@@ -206,4 +222,4 @@ function page() {
     )
 }
 
-export default page
+export default Page

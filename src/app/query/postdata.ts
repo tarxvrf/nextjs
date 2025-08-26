@@ -1,7 +1,7 @@
-import { stat } from "fs";
+
 
 interface User {
-
+  marketing:string,
   namalokasi: string,
   alamatlokasi: string,
   telepon: string,
@@ -18,6 +18,7 @@ interface User {
 };
 
 export const Postdata = async ({
+  marketing,
   namalokasi,
   alamatlokasi,
   telepon,
@@ -28,6 +29,7 @@ export const Postdata = async ({
   operator, sistemparkir, pk, pm, kondisi, kontrak
 }: User) => {
   const newdata = {
+    marketing:marketing,
     namalokasi: namalokasi,
     alamatlokasi: alamatlokasi,
     operator: operator,
