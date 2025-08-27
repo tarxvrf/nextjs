@@ -1,4 +1,4 @@
-
+import Image from "next/image"
 interface Pageprops {
   params: Promise<{
     id: string
@@ -24,7 +24,7 @@ async function page({ params }: Pageprops) {
         <div className="grid sm:grid-cols-3 sm:gap-6  "  >
           <div className="card bg-base-100  shadow-lg hover:shadow-xl sm:hover:scale-150  hover:z-15  transition-all duration-200">
             <figure className="">
-              
+              <Image width={500} height={500} alt="" src={data.data.foto1} />
             </figure>
             <div className="card-body">
               <h1 className="card-title">FOTO 1 </h1>

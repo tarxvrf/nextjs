@@ -30,6 +30,7 @@ function Data() {
     kondisi: string,
     kontrak: string,
     status: string,
+    foto1:string,
     keterangan: string,
   }
 
@@ -51,6 +52,7 @@ function Data() {
     kondisi: "",
     kontrak: "",
     status: "",
+    foto1:"",
     keterangan: "",
   };
   const [form, setform] = useState(initform);
@@ -165,6 +167,7 @@ function Data() {
     fu3: form.fu3,
         kondisi: form.kondisi,
         kontrak: form.kontrak,
+        foto1:form.foto1,
         keterangan: form.keterangan,
       });
 
@@ -183,7 +186,7 @@ function Data() {
     modalRef.current?.close()
   }
   const Edit = (
-    e: React.FormEvent, id: number, marketing: string, namalokasi: string, alamatlokasi: string, telepon: string, picgedung: string, tanggal: string, operator: string, sistemparkir: string, pk: string, pm: string,fu1:string,fu2:string,fu3:string, kondisi: string, kontrak: string, status: string, keterangan: string) => {
+    e: React.FormEvent, id: number, marketing: string, namalokasi: string, alamatlokasi: string, telepon: string, picgedung: string, tanggal: string, operator: string, sistemparkir: string, pk: string, pm: string,fu1:string,fu2:string,fu3:string, kondisi: string, kontrak: string, status: string,foto1:string, keterangan: string) => {
     e.preventDefault();
     settombol("Update");
     openmodal()
@@ -206,6 +209,7 @@ function Data() {
       kondisi,
       kontrak,
       status,
+      foto1,
       keterangan,
     });
 
@@ -354,6 +358,7 @@ function Data() {
                           item.kondisi,
                           item.kontrak,
                           item.status,
+                          item.foto1,
                           item.keterangan,
                         )
                       }
@@ -508,6 +513,7 @@ function Data() {
                   className="input w-full rounded-2xl shadow-2xl "
                   placeholder='Follow Up 3'
                 />
+                <input type="file"  />
                 <textarea
                   value={form.keterangan}
                   onChange={(e) => setform({ ...form, keterangan: e.target.value })}

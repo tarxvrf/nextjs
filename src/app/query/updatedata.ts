@@ -16,6 +16,7 @@ export const Updatedata = async ({
   kondisi,
   kontrak,
   status,
+  foto1,
   keterangan,
 }: {
   id: number;
@@ -35,6 +36,7 @@ export const Updatedata = async ({
   kondisi: string,
   kontrak: string,
   status: string,
+  foto1:string,
   keterangan: string,
 }) => {
   const res = await fetch(`http://localhost:8080/edit/${id}`, {
@@ -54,6 +56,7 @@ export const Updatedata = async ({
       picgedung: picgedung,
       tanggal: tanggal,
       status: status,
+      foto1:foto1,
       keterangan: keterangan,
     }),
   });

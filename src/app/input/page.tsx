@@ -7,7 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 function Page() {
     const initform = {
         id: 0,
-        marketing: "",
+        marketing: "",        
         namalokasi: "",
         alamatlokasi: "",
         telepon: "",
@@ -20,6 +20,7 @@ function Page() {
         kondisi: "",
         kontrak: "",
         status: "",
+        foto1:null ,
         keterangan: "",
     };
    
@@ -51,6 +52,7 @@ function Page() {
                 pm: form.pm,
                 kondisi: form.kondisi,
                 kontrak: form.kontrak,
+                foto1:form.foto1,
                 keterangan: form.keterangan,
             });
 
@@ -204,6 +206,7 @@ function Page() {
                         <option value="Batal">Batal</option>
                         <option value="Deal">Deal</option>
                     </select>
+                    <input type="file" name='file' onChange={(e)=>setform({...form,foto1:e.target.files?.[0]  })}/>
                     <textarea
                         value={form.keterangan}
                         onChange={(e) => setform({ ...form, keterangan: e.target.value })}

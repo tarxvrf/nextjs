@@ -1,7 +1,7 @@
 
 
 interface User {
-  marketing:string,
+  marketing: string,
   namalokasi: string,
   alamatlokasi: string,
   telepon: string,
@@ -14,6 +14,7 @@ interface User {
   kondisi: string,
   kontrak: string,
   status: string,
+  foto1: string,
   keterangan: string,
 };
 
@@ -26,10 +27,10 @@ export const Postdata = async ({
   tanggal,
   status,
   keterangan,
-  operator, sistemparkir, pk, pm, kondisi, kontrak
+  operator, sistemparkir, pk, pm, kondisi, kontrak,foto1
 }: User) => {
   const newdata = {
-    marketing:marketing,
+    marketing: marketing,
     namalokasi: namalokasi,
     alamatlokasi: alamatlokasi,
     operator: operator,
@@ -39,6 +40,7 @@ export const Postdata = async ({
     picgedung: picgedung,
     tanggal: tanggal,
     status: status,
+    foto1:foto1,
     keterangan: keterangan,
   };
   const res = await fetch("http://localhost:8080/kirim", {
