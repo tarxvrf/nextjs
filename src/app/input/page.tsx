@@ -2,12 +2,30 @@
 import Image from 'next/image';
 import React, { useState } from 'react'
 import { Postdata } from '../query/postdata';
-import { useMutation } from '@tanstack/react-query';
+import { Mutation, useMutation } from '@tanstack/react-query';
 
 function Page() {
-    const initform = {
+    type Formtype = {
+        id: number,
+        marketing: string,
+        namalokasi: string,
+        alamatlokasi: string,
+        telepon: string,
+        picgedung: string,
+        tanggal: string,
+        operator: string,
+        sistemparkir: string,
+        pk: string,
+        pm: string,
+        kondisi: string,
+        kontrak: string,
+        status: string,
+        foto1?: File,
+        keterangan: string,
+    }
+    const initform: Formtype = {
         id: 0,
-        marketing: "",        
+        marketing: "",
         namalokasi: "",
         alamatlokasi: "",
         telepon: "",
@@ -20,47 +38,30 @@ function Page() {
         kondisi: "",
         kontrak: "",
         status: "",
-        foto1:null ,
+        foto1: undefined,
         keterangan: "",
     };
-   
-    const [form, setform] = useState(initform);
+
+    const [form, setform] = useState<Formtype>(initform);
 
 
     //TAMBAH DATA
     const { mutate, isError } = useMutation({
-        mutationFn: Postdata,
+        mutationFn: (form: Formtype) => Postdata(form),
         onSuccess: () => { },
     });
+
 
     if (isError) return <div>gagal terkirim</div>;
 
     function submitdata(event: React.FormEvent) {
         event.preventDefault();
-   
-            mutate({
-                marketing: form.marketing,
-                namalokasi: form.namalokasi,
-                alamatlokasi: form.alamatlokasi,
-                telepon: form.telepon,
-                picgedung: form.picgedung,
-                tanggal: form.tanggal,
-                status: form.status,
-                operator: form.operator,
-                sistemparkir: form.sistemparkir,
-                pk: form.pk,
-                pm: form.pm,
-                kondisi: form.kondisi,
-                kontrak: form.kontrak,
-                foto1:form.foto1,
-                keterangan: form.keterangan,
-            });
 
-            setform(initform);
-      
+        mutate(form)
+        setform(initform);
+
 
     }
-
 
 
     return (
@@ -104,7 +105,7 @@ function Page() {
                 >
                     <select
                         onChange={(e) => setform({ ...form, marketing: e.target.value })}
-                        required
+
                         value={form.marketing}
                         className="select "
                     >
@@ -115,43 +116,48 @@ function Page() {
                     </select>
                     <input
                         value={form.namalokasi}
+                        name='namalokasi'
                         className="input w-full rounded-2xl shadow-2xl shadow-amber-200"
                         type="text"
                         placeholder="Nama Lokasi"
-                        required
+
                         onChange={(e) => setform({ ...form, namalokasi: e.target.value })}
                     />
                     <input
                         value={form.alamatlokasi}
+                        name='alamatlokasi'
                         className="input w-full rounded-2xl shadow-2xl shadow-amber-200"
                         type="text"
-                        required
+
                         placeholder="Alamat Lokasi"
                         onChange={(e) => setform({ ...form, alamatlokasi: e.target.value })}
                     />
                     <input
                         value={form.telepon}
+                        name='telepon'
                         className="input w-full rounded-2xl shadow-2xl shadow-amber-200"
                         type="text"
-                        required
+
                         placeholder="Telpon/Email"
                         onChange={(e) => setform({ ...form, telepon: e.target.value })}
                     />
                     <input
                         value={form.picgedung}
+                        name='picgedung'
                         className="input w-full rounded-2xl shadow-2xl shadow-amber-200"
                         type="text"
-                        required
+
                         placeholder="PIC Gedung"
                         onChange={(e) => setform({ ...form, picgedung: e.target.value })}
                     />
                     <div className='grid grid-cols-2 gap-1'>
                         <input
                             type="date"
+                            name='tanggal'
                             value={form.tanggal}
                             onChange={(e) => setform({ ...form, tanggal: e.target.value })}
                             className="input max-w-sm rounded-2xl shadow-2xl shadow-amber-200"
-                            required
+
                         />
                         <input
                             type="input"
@@ -160,12 +166,12 @@ function Page() {
                             onChange={(e) => setform({ ...form, operator: e.target.value })}
                             className="input max-w-sm rounded-2xl shadow-2xl shadow-amber-200"
                             placeholder='Operator'
-                            required
+
                         /></div>
                     <div className='grid sm:grid-cols-3 gap-1'>
                         <select
                             onChange={(e) => setform({ ...form, sistemparkir: e.target.value })}
-                            required
+                            name='sistemparkir'
                             className="select w-full rounded-2xl shadow-2xl shadow-amber-200"
                             value={form.sistemparkir}
                         >
@@ -180,23 +186,25 @@ function Page() {
                     </div>
                     <input
                         type="input"
+                        name='kondisi'
                         value={form.kondisi}
                         onChange={(e) => setform({ ...form, kondisi: e.target.value })}
                         className="input w-full rounded-2xl shadow-2xl shadow-amber-200"
                         placeholder='Kondisi Lokasi'
-                        required
+
                     />
                     <input
                         type="input"
+                        name='kontrak'
                         value={form.kontrak}
                         onChange={(e) => setform({ ...form, kontrak: e.target.value })}
                         className="input w-full rounded-2xl shadow-2xl shadow-amber-200"
                         placeholder='Akhir Kontrak'
-                        required
+
                     />
                     <select
                         onChange={(e) => setform({ ...form, status: e.target.value })}
-                        required
+                        name='status'
                         className="select w-full rounded-2xl shadow-2xl shadow-amber-200"
                         value={form.status}
                     >
@@ -206,12 +214,14 @@ function Page() {
                         <option value="Batal">Batal</option>
                         <option value="Deal">Deal</option>
                     </select>
-                    <input type="file" name='file' onChange={(e)=>setform({...form,foto1:e.target.files?.[0]  })}/>
+                    <input type="file" name='file' onChange={(e) => setform({ ...form, foto1: e.target.files ? e.target.files[0] : undefined })} />
                     <textarea
+
                         value={form.keterangan}
+
                         onChange={(e) => setform({ ...form, keterangan: e.target.value })}
-                        required
-                        name="Keterangan Canvasing"
+
+                        name="keterangan"
                         className="textarea w-full rounded-2xl shadow-2xl "
                         placeholder="Keterangan Canvasing"
                         maxLength={200}

@@ -1,6 +1,6 @@
 
 
-interface User {
+export const Postdata = async (form: {
   marketing: string,
   namalokasi: string,
   alamatlokasi: string,
@@ -14,41 +14,31 @@ interface User {
   kondisi: string,
   kontrak: string,
   status: string,
-  foto1: string,
+  foto1?: File | string,
   keterangan: string,
-};
+}) => {
+  const formdata = new FormData()
+  formdata.append("marketing", form.marketing)
+  formdata.append("namalokasi", form.namalokasi)
+  formdata.append("alamatlokasi", form.alamatlokasi)
+  formdata.append("telepon", form.telepon)
+  formdata.append("picgedung", form.picgedung)
+  formdata.append("tanggal", form.tanggal)
+  formdata.append("operator", form.operator)
+  formdata.append("sistemparkir", form.sistemparkir)
+  formdata.append("pk", form.pk)
+  formdata.append("pm", form.marketing)
+  formdata.append("kondisi", form.kondisi)
+  formdata.append("kontrak", form.kontrak)
+  formdata.append("status", form.status)
+  formdata.append("file", form.foto1 as File | string)
+  formdata.append("keterangan", form.keterangan)
+  console.log(formdata)
 
-export const Postdata = async ({
-  marketing,
-  namalokasi,
-  alamatlokasi,
-  telepon,
-  picgedung,
-  tanggal,
-  status,
-  keterangan,
-  operator, sistemparkir, pk, pm, kondisi, kontrak,foto1
-}: User) => {
-  const newdata = {
-    marketing: marketing,
-    namalokasi: namalokasi,
-    alamatlokasi: alamatlokasi,
-    operator: operator,
-    sistemparkir: sistemparkir,
-    pk: pk, pm: pm, kondisi: kondisi, kontrak: kontrak,
-    telepon: telepon,
-    picgedung: picgedung,
-    tanggal: tanggal,
-    status: status,
-    foto1:foto1,
-    keterangan: keterangan,
-  };
   const res = await fetch("http://localhost:8080/kirim", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newdata),
+    method: "POST",   
+   
+    body: formdata,
   });
   if (!res.ok) throw new Error(res.statusText);
   return res.json;
