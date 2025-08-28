@@ -6,17 +6,20 @@ export const Updatedata = async (form: {
   telepon: string;
   picgedung: string;
   tanggal: string;
+  status: string;
   operator: string;
   sistemparkir: string;
   pk: string;
   pm: string;
+  fu1: string,
+  fu2: string,
+  fu3: string,
   kondisi: string;
   kontrak: string;
-  status: string;
-  foto1?: File | string;
+  foto1: File | undefined,
   keterangan: string;
 
-}, id: number) => {
+}) => {
   const formdata = new FormData()
   formdata.append("marketing", form.marketing)
   formdata.append("namalokasi", form.namalokasi)
@@ -24,20 +27,23 @@ export const Updatedata = async (form: {
   formdata.append("telepon", form.telepon)
   formdata.append("picgedung", form.picgedung)
   formdata.append("tanggal", form.tanggal)
+  formdata.append("status", form.status)
   formdata.append("operator", form.operator)
   formdata.append("sistemparkir", form.sistemparkir)
   formdata.append("pk", form.pk)
-  formdata.append("pm", form.marketing)
+  formdata.append("pm", form.pm)
+  formdata.append("fu1", form.fu1)
+  formdata.append("fu2", form.fu2)
+  formdata.append("fu3", form.fu3)
   formdata.append("kondisi", form.kondisi)
   formdata.append("kontrak", form.kontrak)
-  formdata.append("status", form.status)
-  formdata.append("foto1", form.foto1 as File | string)
+  formdata.append("foto1", form.foto1 as File ?? undefined)
   formdata.append("keterangan", form.keterangan)
-  console.log(id)
-  const res = await fetch(`http://localhost:8080/edit/${id}`, {
+  console.log(formdata.getAll)
+  const res = await fetch(`http://localhost:8080/edit/${form.id}`, {
     method: "PUT",
-    body:formdata
-    
+    body: formdata
+
   });
   if (!res.ok) throw new Error("nextjs gagal update data");
   return res.json();

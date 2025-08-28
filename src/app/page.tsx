@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 
 
 function Data() {
-
+const filref = useRef<HTMLInputElement | null>(null)
   type Formtype= {
     id: number;
     marketing: string,
@@ -30,7 +30,7 @@ function Data() {
     kondisi: string,
     kontrak: string,
     status: string,
-    foto1: string,
+    foto1: File | undefined ,
     keterangan: string,
   }
 
@@ -52,7 +52,7 @@ function Data() {
     kondisi: "",
     kontrak: "",
     status: "",
-    foto1: "",
+    foto1:undefined,
     keterangan: "",
   };
   const [form, setform] = useState(initform);
@@ -139,7 +139,7 @@ function Data() {
 
   // Update Data
   const { mutate: updatem } = useMutation({
-    mutationFn: (form:Formtype)=>Updatedata(form,form.id),
+    mutationFn: (form:Formtype)=>Updatedata(form),
     onSuccess: () => {
       console.log("data berhasil diupdate");
     },
@@ -149,30 +149,12 @@ function Data() {
   function submitdata(event: React.FormEvent) {
     event.preventDefault();
     if (tombol == "Update") {
-      updatem({
-        id: form.id,
-        marketing: form.marketing,
-        namalokasi: form.namalokasi,
-        alamatlokasi: form.alamatlokasi,
-        telepon: form.telepon,
-        picgedung: form.picgedung,
-        tanggal: form.tanggal,
-        status: form.status,
-        operator: form.operator,
-        sistemparkir: form.sistemparkir,
-        pk: form.pk,
-        pm: form.pm,
-        fu1: form.fu1,
-        fu2: form.fu2,
-        fu3: form.fu3,
-        kondisi: form.kondisi,
-        kontrak: form.kontrak,
-        foto1: form.foto1,
-        keterangan: form.keterangan,
-      });
+      updatem(form);
 
       setform(initform);
-      console.log(form.id)
+        if(filref.current){
+            filref.current.value =""
+        }
     }
 
   }
@@ -187,7 +169,7 @@ function Data() {
     modalRef.current?.close()
   }
   const Edit = (
-    e: React.FormEvent, id: number, marketing: string, namalokasi: string, alamatlokasi: string, telepon: string, picgedung: string, tanggal: string, operator: string, sistemparkir: string, pk: string, pm: string, fu1: string, fu2: string, fu3: string, kondisi: string, kontrak: string, status: string, foto1: string, keterangan: string) => {
+    e: React.FormEvent, id: number, marketing: string, namalokasi: string, alamatlokasi: string, telepon: string, picgedung: string, tanggal: string, operator: string, sistemparkir: string, pk: string, pm: string, fu1: string, fu2: string, fu3: string, kondisi: string, kontrak: string, status: string, foto1: File | undefined , keterangan: string) => {
     e.preventDefault();
     settombol("Update");
     openmodal()
@@ -586,7 +568,7 @@ function Data() {
                 <div className="grid sm:grid-cols-3 py-3">
                   <label className="floating-label">
                     <span>Foto-1</span>
-                    <input type="file" name="foto1" />
+                    <input ref={filref} type="file" name="foto1"  onChange={(e) => setform({ ...form, foto1: e.target.files?.[0] || undefined})} />
                   </label>
                 
 
@@ -604,11 +586,11 @@ function Data() {
                 </label>
                 <div className="flex gap-3">
                   <button className="btn btn-success hover:bg-yellow-500  info btn-sm w-32 rounded-3xl ">{tombol}</button>
-                  <button onClick={() => closemodal()} className="btn btn-error hover:bg-yellow-500  info btn-sm w-32 rounded-3xl ">close</button>
-
+                 
                 </div>
-
               </form>
+               <button onClick={() => closemodal()} className="btn btn-error hover:bg-yellow-500  info btn-sm w-32 rounded-3xl ">close</button>
+
             </div>
           </div>
         </dialog>
