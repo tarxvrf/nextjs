@@ -12,7 +12,7 @@ async function page({ params }: Pageprops) {
     cache: "no-store", // biar data selalu fresh
   });
   const data = await res.json();
-
+console.log(data.data.foto1)
 
   return (
 
@@ -24,7 +24,7 @@ async function page({ params }: Pageprops) {
         <div className="grid sm:grid-cols-3 sm:gap-6  "  >
           <div className="card bg-base-100  shadow-lg hover:shadow-xl sm:hover:scale-150  hover:z-15  transition-all duration-200">
             <figure className="">
-              <Image width={500} height={500} alt="" src={`http://localhost:8080/${data.data.foto1}`} />
+              <Image width={500} height={500} alt="" src={data.data.foto1 ===""?`/images/window.svg`:`http://localhost:8080/${data.data.foto1}`} />
             </figure>
             <div className="card-body">
               <h1 className="card-title">FOTO 1 </h1>
@@ -65,7 +65,7 @@ async function page({ params }: Pageprops) {
                 </p>
               </div>
             </div>
-            <h2>Keterangan :</h2>
+            <h2><span className="font-bold">Keterangan :</span> {data.data.keterangan}</h2>
           </div>
         </div>
       </div>

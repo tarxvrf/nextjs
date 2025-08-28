@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 
 function Data() {
 
-  interface user {
+  type Formtype= {
     id: number;
     marketing: string,
     namalokasi: string,
@@ -30,11 +30,11 @@ function Data() {
     kondisi: string,
     kontrak: string,
     status: string,
-    foto1:string,
+    foto1: string,
     keterangan: string,
   }
 
-  const initform = {
+  const initform:Formtype= {
     id: 0,
     marketing: "",
     namalokasi: "",
@@ -52,13 +52,13 @@ function Data() {
     kondisi: "",
     kontrak: "",
     status: "",
-    foto1:"",
+    foto1: "",
     keterangan: "",
   };
   const [form, setform] = useState(initform);
   // LIHAT DAATA
 
-  const { data, isLoading } = useQuery<user[]>({
+  const { data, isLoading } = useQuery<Formtype[]>({
     queryKey: ["message"],
     queryFn: Fetchdata,
     refetchInterval: 2000,
@@ -139,7 +139,7 @@ function Data() {
 
   // Update Data
   const { mutate: updatem } = useMutation({
-    mutationFn: Updatedata,
+    mutationFn: (form:Formtype)=>Updatedata(form,form.id),
     onSuccess: () => {
       console.log("data berhasil diupdate");
     },
@@ -163,15 +163,16 @@ function Data() {
         pk: form.pk,
         pm: form.pm,
         fu1: form.fu1,
-    fu2: form.fu2,
-    fu3: form.fu3,
+        fu2: form.fu2,
+        fu3: form.fu3,
         kondisi: form.kondisi,
         kontrak: form.kontrak,
-        foto1:form.foto1,
+        foto1: form.foto1,
         keterangan: form.keterangan,
       });
 
       setform(initform);
+      console.log(form.id)
     }
 
   }
@@ -182,11 +183,11 @@ function Data() {
     modalRef.current?.showModal()
   }
 
-  const closemodal =()=>{
+  const closemodal = () => {
     modalRef.current?.close()
   }
   const Edit = (
-    e: React.FormEvent, id: number, marketing: string, namalokasi: string, alamatlokasi: string, telepon: string, picgedung: string, tanggal: string, operator: string, sistemparkir: string, pk: string, pm: string,fu1:string,fu2:string,fu3:string, kondisi: string, kontrak: string, status: string,foto1:string, keterangan: string) => {
+    e: React.FormEvent, id: number, marketing: string, namalokasi: string, alamatlokasi: string, telepon: string, picgedung: string, tanggal: string, operator: string, sistemparkir: string, pk: string, pm: string, fu1: string, fu2: string, fu3: string, kondisi: string, kontrak: string, status: string, foto1: string, keterangan: string) => {
     e.preventDefault();
     settombol("Update");
     openmodal()
@@ -227,8 +228,8 @@ function Data() {
 
         {/** PENCARIAN **/}
         <div>
-          
-            <form className="grid gap-2 sm:flex" >
+
+          <form className="grid gap-2 sm:flex" >
             <input
               value={search}
               type="text"
@@ -236,56 +237,56 @@ function Data() {
               onChange={(e) => setsearch(e.target.value)}
               className="input py-3 mb-3"
             />
-       
-          <select
-            onChange={(e) => setmarketing(e.target.value)}
-            required
-            value={smarketing}
-            className="select"
-          >
-            <option value="">--Pilih Marketing--</option>
-            <option value="Wiwit">Wiwit</option>
-            <option value="Candra">Candra</option>
 
-          </select>
-          <select
-            onChange={(e) => setstatus(e.target.value)}
-            required
-            value={status}
-            className="select "
-          >
-            <option value="">--Pilih status--</option>
-            <option value="Onprogres">Onprogres</option>
-            <option value="Tertarik">Tertarik</option>
-            <option value="Batal">Batal</option>
-            <option value="Deal">Deal</option>
-          </select>
+            <select
+              onChange={(e) => setmarketing(e.target.value)}
+              required
+              value={smarketing}
+              className="select"
+            >
+              <option value="">--Pilih Marketing--</option>
+              <option value="Wiwit">Wiwit</option>
+              <option value="Candra">Candra</option>
 
-          <select
-            onChange={(e) => setbulan(e.target.value)}
-            required
-            value={bulan}
-            className="select"
-          >
-            <option value={""}>Pilih bulan</option>
-            {unikbulan.map((item, i) => (
-              <option key={i} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
+            </select>
+            <select
+              onChange={(e) => setstatus(e.target.value)}
+              required
+              value={status}
+              className="select "
+            >
+              <option value="">--Pilih status--</option>
+              <option value="Onprogres">Onprogres</option>
+              <option value="Tertarik">Tertarik</option>
+              <option value="Batal">Batal</option>
+              <option value="Deal">Deal</option>
+            </select>
 
-          <label htmlFor="" className="input flex gap-1">
-            <input
-              value={startdate}
-              type="date"
-              onChange={(e) => settanggal(e.target.value)}
-            />
-          </label>
+            <select
+              onChange={(e) => setbulan(e.target.value)}
+              required
+              value={bulan}
+              className="select"
+            >
+              <option value={""}>Pilih bulan</option>
+              {unikbulan.map((item, i) => (
+                <option key={i} value={item}>
+                  {item}
+                </option>
+              ))}
+            </select>
 
-          <button className="btn btn-error text-xs lg:w-32" onClick={handleclear}>
-            clear
-          </button>
+            <label htmlFor="" className="input flex gap-1">
+              <input
+                value={startdate}
+                type="date"
+                onChange={(e) => settanggal(e.target.value)}
+              />
+            </label>
+
+            <button className="btn btn-error text-xs lg:w-32" onClick={handleclear}>
+              clear
+            </button>
           </form>
         </div>
       </div>
@@ -389,145 +390,224 @@ function Data() {
         </div>
 
         <dialog ref={modalRef} id="my_modal_1" className="modal ">
-          <div className="modal-box max-w-6xl bg-gray-300">
+          <div className="modal-box max-w-4xl ">
             <div className='grid w-full px-2 py-2  '>
               <form
                 className="grid gap-3 "
-                onSubmit={submitdata}                
+                onSubmit={submitdata}
               >
-                <select
-                  onChange={(e) => setform({ ...form, marketing: e.target.value })}
-                  value={form.marketing}
-                  className="select rounded-2xl "
-                >
-                  <option value="">--Pilih Marketing--</option>
-                  <option value="Wiwit">Wiwit</option>
-                  <option value="Candra">Candra</option>
+                <label className="floating-label ">
+                  <span>Marketing</span>
+                  <select
+                    onChange={(e) => setform({ ...form, marketing: e.target.value })}
+                    value={form.marketing}
+                    name="marketing"
+                    className="select rounded-2xl "
+                  >
+                    <option value="">--Pilih Marketing--</option>
+                    <option value="Wiwit">Wiwit</option>
+                    <option value="Candra">Candra</option>
+                  </select>
+                </label>
 
-                </select>
-                <input
-                  value={form.namalokasi}
-                  className="input w-full rounded-2xl shadow-2xl "
-                  type="text"
-                  placeholder="Nama Lokasi"
-                  onChange={(e) => setform({ ...form, namalokasi: e.target.value })}
-                />
-                <input
-                  value={form.alamatlokasi}
-                  className="input w-full rounded-2xl shadow-2xl "
-                  type="text"
-                  placeholder="Alamat Lokasi"
-                  onChange={(e) => setform({ ...form, alamatlokasi: e.target.value })}
-                />
-                <input
-                  value={form.telepon}
-                  className="input w-full rounded-2xl shadow-2xl "
-                  type="text"
-                  placeholder="Telpon/Email"
-                  onChange={(e) => setform({ ...form, telepon: e.target.value })}
-                />
-                <input
-                  value={form.picgedung}
-                  className="input w-full rounded-2xl shadow-2xl "
-                  type="text"
-                  placeholder="PIC Gedung"
-                  onChange={(e) => setform({ ...form, picgedung: e.target.value })}
-                />
-                <div className='grid grid-cols-2 gap-1'>
+                <label className="floating-label">
                   <input
-                    type="date"
-                    value={form.tanggal}
-                    onChange={(e) => setform({ ...form, tanggal: e.target.value })}
-                    className="input max-w-sm rounded-2xl shadow-2xl "
-
+                    value={form.namalokasi}
+                    name="namalokasi"
+                    className="input w-full rounded-2xl shadow-2xl "
+                    type="text"
+                    placeholder="Nama Lokasi"
+                    onChange={(e) => setform({ ...form, namalokasi: e.target.value })}
                   />
+                  <span>Nama Lokasi</span>
+                </label>
+
+                <label className="floating-label">
+                  <span>Alamat Lokasi</span>
+                  <input
+                    value={form.alamatlokasi}
+                    name="alamatlokasi"
+                    className="input w-full rounded-2xl shadow-2xl "
+                    type="text"
+                    placeholder="Alamat Lokasi"
+                    onChange={(e) => setform({ ...form, alamatlokasi: e.target.value })}
+                  />
+                </label>
+
+                <label className="floating-label">
+                  <span>Telepon</span>
+                  <input
+                    value={form.telepon}
+                    name="telepon"
+                    className="input w-full rounded-2xl shadow-2xl "
+                    type="text"
+                    placeholder="Telpon/Email"
+                    onChange={(e) => setform({ ...form, telepon: e.target.value })}
+                  />
+                </label>
+
+                <label className="floating-label">
+                  <span >Pic Gedung</span>
+                  <input
+                    value={form.picgedung}
+                    name="picgedung"
+                    className="input w-full rounded-2xl shadow-2xl "
+                    type="text"
+                    placeholder="PIC Gedung"
+                    onChange={(e) => setform({ ...form, picgedung: e.target.value })}
+                  />
+                </label>
+
+
+                <div className='grid grid-cols-2 gap-1'>
+                  <label className="floating-label">
+                    <span>Tanggal</span>
+                    <input
+                      type="date"
+                      name="tanggal"
+                      value={form.tanggal}
+                      onChange={(e) => setform({ ...form, tanggal: e.target.value })}
+                      className="input max-w-sm rounded-2xl shadow-2xl "
+
+                    />
+                  </label>
+                  <label className="floating-label ">
+                    <span>Operator</span>
+                    <input
+                      type="input"
+                      name="operator"
+                      value={form.operator}
+                      onChange={(e) => setform({ ...form, operator: e.target.value })}
+                      className="input max-w-sm rounded-2xl shadow-2xl bg-amber "
+                      placeholder='Operator'
+
+                    /></label>
+                </div>
+                <div className='grid sm:grid-cols-3 gap-1'>
+
+                  <label className="floating-label">
+                    <span>Sistem Parkir</span>
+                    <select
+                      onChange={(e) => setform({ ...form, sistemparkir: e.target.value })}
+                      name="sistemparkir"
+                      className="select w-full rounded-2xl shadow-2xl "
+                      value={form.sistemparkir}
+                    >
+                      <option value="">--Sistem Parkir--</option>
+                      <option value="Warga">Warga</option>
+                      <option value="Parking">Parking</option>
+                      <option value="Manual">Manual</option>
+                      <option value="Kosong">Kosong</option>
+                    </select>
+                  </label>
+                  <label className="floating-label">
+                    <span>Pintu Keluar</span>
+                  <input onChange={(e) => setform({ ...form, pk: e.target.value })} value={form.pk} type="number" min={0} max={10} className="input w-full rounded-2xl shadow-2xl " placeholder='PK' />
+                  </label>
+                  <label className="floating-label">
+                    <span>Pintu Masuk</span>
+                  <input onChange={(e) => setform({ ...form, pm: e.target.value })} value={form.pm} type="number" min={0} max={10} className="input w-full rounded-2xl shadow-2xl " placeholder='PM' />
+                </label>
+                </div>
+                <label className="floating-label">
+                  <span>Kondisi</span>
                   <input
                     type="input"
-                    name="operator"
-                    value={form.operator}
-                    onChange={(e) => setform({ ...form, operator: e.target.value })}
-                    className="input max-w-sm rounded-2xl shadow-2xl "
-                    placeholder='Operator'
+                    value={form.kondisi}
+                    name="kondisi"
+                    onChange={(e) => setform({ ...form, kondisi: e.target.value })}
+                    className="input w-full rounded-2xl shadow-2xl "
+                    placeholder='Kondisi Lokasi'
+                  />
+                </label>
 
-                  /></div>
-                <div className='grid sm:grid-cols-3 gap-1'>
+                <label className="floating-label">
+                  <span>Kontrak</span>
+                  <input
+                    type="input"
+                    name="kontrak"
+                    value={form.kontrak}
+                    onChange={(e) => setform({ ...form, kontrak: e.target.value })}
+                    className="input w-full rounded-2xl shadow-2xl "
+                    placeholder='Akhir Kontrak'
+                  />
+                </label>
+                <label className="floating-label">
+                  <span>Status</span>
                   <select
-                    onChange={(e) => setform({ ...form, sistemparkir: e.target.value })}
-
+                    onChange={(e) => setform({ ...form, status: e.target.value })}
                     className="select w-full rounded-2xl shadow-2xl "
-                    value={form.sistemparkir}
+                    value={form.status}
+                    name="status"
                   >
-                    <option value="">--Sistem Parkir--</option>
-                    <option value="Warga">Warga</option>
-                    <option value="Parking">Parking</option>
-                    <option value="Manual">Manual</option>
-                    <option value="Kosong">Kosong</option>
+                    <option value="">--Pilih status--</option>
+                    <option value="Onprogres">Onprogres</option>
+                    <option value="Tertarik">Tertarik</option>
+                    <option value="Batal">Batal</option>
+                    <option value="Deal">Deal</option>
                   </select>
-                  <input onChange={(e) => setform({ ...form, pk: e.target.value })} value={form.pk} type="number" min={0} max={10} className="input w-full rounded-2xl shadow-2xl " placeholder='PK' />
-                  <input onChange={(e) => setform({ ...form, pm: e.target.value })} value={form.pm} type="number" min={0} max={10} className="input w-full rounded-2xl shadow-2xl " placeholder='PM' />
-                </div>
-                <input
-                  type="input"
-                  value={form.kondisi}
-                  onChange={(e) => setform({ ...form, kondisi: e.target.value })}
-                  className="input w-full rounded-2xl shadow-2xl "
-                  placeholder='Kondisi Lokasi'
-                />
-                <input
-                  type="input"
-                  value={form.kontrak}
-                  onChange={(e) => setform({ ...form, kontrak: e.target.value })}
-                  className="input w-full rounded-2xl shadow-2xl "
-                  placeholder='Akhir Kontrak'
-                />
-                <select
-                  onChange={(e) => setform({ ...form, status: e.target.value })}
-                  className="select w-full rounded-2xl shadow-2xl "
-                  value={form.status}
-                >
-                  <option value="">--Pilih status--</option>
-                  <option value="Onprogres">Onprogres</option>
-                  <option value="Tertarik">Tertarik</option>
-                  <option value="Batal">Batal</option>
-                  <option value="Deal">Deal</option>
-                </select>
-                 <input
-                  type="input"
-                  value={form.fu1}
-                  onChange={(e) => setform({ ...form, fu1: e.target.value })}
-                  className="input w-full rounded-2xl shadow-2xl "
-                  placeholder='Follow Up 1'
-                />
-                 <input
-                  type="input"
-                  value={form.fu2}
-                  onChange={(e) => setform({ ...form, fu2: e.target.value })}
-                  className="input w-full rounded-2xl shadow-2xl "
-                  placeholder='Follow Up2'
-                />
+                </label>
 
-                 <input
-                  type="input"
-                  value={form.fu3}
-                  onChange={(e) => setform({ ...form,fu3: e.target.value })}
-                  className="input w-full rounded-2xl shadow-2xl "
-                  placeholder='Follow Up 3'
-                />
-                <input type="file"  />
+                <label className="floating-label">
+                  <span>Follow UP 1</span>
+                  <input
+                    type="input"
+                    name="fu2"
+                    value={form.fu1}
+                    onChange={(e) => setform({ ...form, fu1: e.target.value })}
+                    className="input w-full rounded-2xl shadow-2xl "
+                    placeholder='Follow Up 1'
+                  />
+                </label>
+
+                <label className="floating-label">
+                  <span>Follow Up 2</span>
+                  <input
+                    type="input"
+                    name="fu2"
+                    value={form.fu2}
+                    onChange={(e) => setform({ ...form, fu2: e.target.value })}
+                    className="input w-full rounded-2xl shadow-2xl "
+                    placeholder='Follow Up2'
+                  />
+                </label>
+
+                <label className="floating-label">
+                  <span>Follow Up 3</span>
+                  <input
+                    type="input"
+                    name="fu3"
+                    value={form.fu3}
+                    onChange={(e) => setform({ ...form, fu3: e.target.value })}
+                    className="input w-full rounded-2xl shadow-2xl "
+                    placeholder='Follow Up 3'
+                  />
+                </label>
+                <div className="grid sm:grid-cols-3 py-3">
+                  <label className="floating-label">
+                    <span>Foto-1</span>
+                    <input type="file" name="foto1" />
+                  </label>
+                
+
+                </div>
+                <label className="floating-label">
+                    <span>Keterangan</span>
                 <textarea
                   value={form.keterangan}
                   onChange={(e) => setform({ ...form, keterangan: e.target.value })}
-                  name="Keterangan Canvasing"
+                  name="keterangan"
                   className="textarea w-full rounded-2xl shadow-2xl "
                   placeholder="Keterangan Canvasing"
                   maxLength={200}
-                ></textarea>
+                />
+                </label>
                 <div className="flex gap-3">
-                     <button className="btn btn-success hover:bg-yellow-500  info btn-sm w-32 rounded-3xl ">{tombol}</button>
-                     <button onClick={()=>closemodal()}className="btn btn-error hover:bg-yellow-500  info btn-sm w-32 rounded-3xl ">close</button>
-               
-                     </div>
-                
+                  <button className="btn btn-success hover:bg-yellow-500  info btn-sm w-32 rounded-3xl ">{tombol}</button>
+                  <button onClick={() => closemodal()} className="btn btn-error hover:bg-yellow-500  info btn-sm w-32 rounded-3xl ">close</button>
+
+                </div>
+
               </form>
             </div>
           </div>

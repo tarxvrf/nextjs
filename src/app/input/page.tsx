@@ -1,10 +1,11 @@
 "use client"
 import Image from 'next/image';
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Postdata } from '../query/postdata';
-import { Mutation, useMutation } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 function Page() {
+    const filref = useRef<HTMLInputElement |null>(null)
     type Formtype = {
         id: number,
         marketing: string,
@@ -20,7 +21,7 @@ function Page() {
         kondisi: string,
         kontrak: string,
         status: string,
-        foto1?: File,
+        foto1: File | undefined,
         keterangan: string,
     }
     const initform: Formtype = {
@@ -38,7 +39,7 @@ function Page() {
         kondisi: "",
         kontrak: "",
         status: "",
-        foto1: undefined,
+        foto1:undefined,
         keterangan: "",
     };
 
@@ -59,6 +60,9 @@ function Page() {
 
         mutate(form)
         setform(initform);
+        if(filref.current){
+            filref.current.value =""
+        }
 
 
     }
@@ -105,7 +109,7 @@ function Page() {
                 >
                     <select
                         onChange={(e) => setform({ ...form, marketing: e.target.value })}
-
+                        name='marketing'
                         value={form.marketing}
                         className="select "
                     >
@@ -114,6 +118,8 @@ function Page() {
                         <option value="Candra">Candra</option>
 
                     </select>
+                    <label className='floating-label'>
+                        <span>Nama Lokasi</span>
                     <input
                         value={form.namalokasi}
                         name='namalokasi'
@@ -123,6 +129,9 @@ function Page() {
 
                         onChange={(e) => setform({ ...form, namalokasi: e.target.value })}
                     />
+                    </label>
+
+
                     <input
                         value={form.alamatlokasi}
                         name='alamatlokasi'
@@ -214,7 +223,7 @@ function Page() {
                         <option value="Batal">Batal</option>
                         <option value="Deal">Deal</option>
                     </select>
-                    <input type="file" name='file' onChange={(e) => setform({ ...form, foto1: e.target.files ? e.target.files[0] : undefined })} />
+                    <input type="file" ref={filref} name='foto1' onChange={(e) => setform({ ...form, foto1: e.target.files?.[0] || undefined})} />
                     <textarea
 
                         value={form.keterangan}
