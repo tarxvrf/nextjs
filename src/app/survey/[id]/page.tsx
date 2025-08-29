@@ -40,8 +40,8 @@ console.log(data.data.foto1)
             <h2><span className="font-bold">Akhir Kontrak : </span>{data.data.kontrak}</h2>
             <h2><span className="font-bold">Kondiisi Lokasi : </span>{data.data.kondisi}</h2>
             <h1>
-              <span className="font-bold">Jumlah Pos Motor : </span> ||<span className="font-bold"> Jumlah Pos Mobil :</span>  ||
-              <span className="font-bold">PM :</span> {data.data.pm} || <span className="font-bold">PK: {data.data.pk}</span>
+              <span className="font-bold">Jumlah Pos Motor : </span> <br /><span className="font-bold"> Jumlah Pos Mobil :</span><br />
+              <span className="font-bold">PM :</span> {data.data.pm} || <span className="font-bold">PK:</span> {data.data.pk}
             </h1>
             <div className="grid sm:grid-cols-3 gap-2 py-4 px-2 justify-center">
               <div className="border rounded-lg p-3 w-full bg-white shadow-sm">

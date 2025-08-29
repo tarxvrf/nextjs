@@ -273,12 +273,12 @@ const filref = useRef<HTMLInputElement | null>(null)
         </div>
       </div>
       <div className="">
-        <div className="overflow-x-auto rounded-box border bg-base-200 pt-10">
-          <table className="table-auto table-zebra border w-full ">
+        <div className="overflow-x-auto rounded-box bg-base-200  pt-10">
+          <table className="table table-xs sm:table-lg table-zebra text-justify border w-full ">
             {/* head */}
             <thead>
-              <tr>
-                <th className="hidden sm:block">Marketing</th>
+              <tr className="border">
+                <th >Marketing</th>
                 <th>Nama lokasi</th>
                 <th>Alamat Lokasi</th>
                 <th>No telpon</th>
@@ -286,13 +286,14 @@ const filref = useRef<HTMLInputElement | null>(null)
                 <th>Tanggal</th>
                 <th>Status</th>
                 <th>Keterangan</th>
+               
               </tr>
             </thead>
-            <tbody>
+            <tbody className="border">
               {/* row 1 */}
               {filtered?.map((item, index) => (
                 <tr key={index} className="bg-base-200 pb-3 ">
-                  <td key={index} className="hidden sm:block">{item.marketing}</td>
+                  <td key={index}>{item.marketing}</td>
                   <td>  <Link
                     className="text-blue-600 font-bold underline"
                     href={`/survey/${item.id}`}
