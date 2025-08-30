@@ -17,6 +17,8 @@ export const Updatedata = async (form: {
   kondisi: string;
   kontrak: string;
   foto1: File | undefined,
+  foto2: File | undefined,
+  foto3: File | undefined,
   keterangan: string;
 
 }) => {
@@ -37,7 +39,9 @@ export const Updatedata = async (form: {
   formdata.append("fu3", form.fu3)
   formdata.append("kondisi", form.kondisi)
   formdata.append("kontrak", form.kontrak)
-  formdata.append("foto1", form.foto1 as File ?? undefined)
+  if (form.foto1) formdata.append("foto1", form.foto1)
+  if (form.foto2) formdata.append("foto2", form.foto2)
+  if (form.foto3) formdata.append("foto3", form.foto3)
   formdata.append("keterangan", form.keterangan)
   console.log(formdata.getAll)
   const res = await fetch(`http://localhost:8080/edit/${form.id}`, {

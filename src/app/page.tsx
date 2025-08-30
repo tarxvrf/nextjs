@@ -8,11 +8,15 @@ import { Fetchdata } from "./query/fetchdata";
 import { FormEvent, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import dayjs from "dayjs";
+import { IoCloseCircle } from "react-icons/io5";
 
 
 function Data() {
-const filref = useRef<HTMLInputElement | null>(null)
-  type Formtype= {
+  const filref = useRef<HTMLInputElement | null>(null)
+  const filref2 = useRef<HTMLInputElement | null>(null)
+  const filref3 = useRef<HTMLInputElement | null>(null)
+
+  type Formtype = {
     id: number;
     marketing: string,
     namalokasi: string,
@@ -30,11 +34,13 @@ const filref = useRef<HTMLInputElement | null>(null)
     kondisi: string,
     kontrak: string,
     status: string,
-    foto1: File | undefined ,
+    foto1: File | undefined,
+    foto2: File | undefined,
+    foto3: File | undefined,
     keterangan: string,
   }
 
-  const initform:Formtype= {
+  const initform: Formtype = {
     id: 0,
     marketing: "",
     namalokasi: "",
@@ -52,7 +58,9 @@ const filref = useRef<HTMLInputElement | null>(null)
     kondisi: "",
     kontrak: "",
     status: "",
-    foto1:undefined,
+    foto1: undefined,
+    foto2: undefined,
+    foto3: undefined,
     keterangan: "",
   };
   const [form, setform] = useState(initform);
@@ -139,7 +147,7 @@ const filref = useRef<HTMLInputElement | null>(null)
 
   // Update Data
   const { mutate: updatem } = useMutation({
-    mutationFn: (form:Formtype)=>Updatedata(form),
+    mutationFn: (form: Formtype) => Updatedata(form),
     onSuccess: () => {
       console.log("data berhasil diupdate");
     },
@@ -152,9 +160,16 @@ const filref = useRef<HTMLInputElement | null>(null)
       updatem(form);
 
       setform(initform);
-        if(filref.current){
-            filref.current.value =""
-        }
+      if (filref.current) {
+        filref.current.value = ""
+      }
+
+      if (filref2.current) {
+        filref2.current.value = ""
+      }
+      if (filref3.current) {
+        filref3.current.value = ""
+      }
     }
 
   }
@@ -169,7 +184,7 @@ const filref = useRef<HTMLInputElement | null>(null)
     modalRef.current?.close()
   }
   const Edit = (
-    e: React.FormEvent, id: number, marketing: string, namalokasi: string, alamatlokasi: string, telepon: string, picgedung: string, tanggal: string, operator: string, sistemparkir: string, pk: string, pm: string, fu1: string, fu2: string, fu3: string, kondisi: string, kontrak: string, status: string, foto1: File | undefined , keterangan: string) => {
+    e: React.FormEvent, id: number, marketing: string, namalokasi: string, alamatlokasi: string, telepon: string, picgedung: string, tanggal: string, operator: string, sistemparkir: string, pk: string, pm: string, fu1: string, fu2: string, fu3: string, kondisi: string, kontrak: string, status: string, foto1: File | undefined, foto2: File | undefined, foto3: File | undefined, keterangan: string) => {
     e.preventDefault();
     settombol("Update");
     openmodal()
@@ -193,6 +208,8 @@ const filref = useRef<HTMLInputElement | null>(null)
       kontrak,
       status,
       foto1,
+      foto2,
+      foto3,
       keterangan,
     });
 
@@ -286,7 +303,7 @@ const filref = useRef<HTMLInputElement | null>(null)
                 <th>Tanggal</th>
                 <th>Status</th>
                 <th>Keterangan</th>
-               
+
               </tr>
             </thead>
             <tbody className="border">
@@ -343,6 +360,8 @@ const filref = useRef<HTMLInputElement | null>(null)
                           item.kontrak,
                           item.status,
                           item.foto1,
+                          item.foto2,
+                          item.foto3,
                           item.keterangan,
                         )
                       }
@@ -373,8 +392,14 @@ const filref = useRef<HTMLInputElement | null>(null)
         </div>
 
         <dialog ref={modalRef} id="my_modal_1" className="modal ">
-          <div className="modal-box max-w-4xl ">
+          <div className="modal-box max-w-4xl  ">
             <div className='grid w-full px-2 py-2  '>
+              <div className="relative pt-5">
+                <div className="absolute right-2 bottom-0">
+                  <IoCloseCircle onClick={() => closemodal()}  className="text-error text-4xl"/>
+                     </div>
+
+              </div>
               <form
                 className="grid gap-3 "
                 onSubmit={submitdata}
@@ -405,6 +430,32 @@ const filref = useRef<HTMLInputElement | null>(null)
                   <span>Nama Lokasi</span>
                 </label>
 
+                <div className="grid sm:grid-cols-2 gap-2">
+                  <label className="floating-label">
+                    <span >Pic Gedung</span>
+                    <input
+                      value={form.picgedung}
+                      name="picgedung"
+                      className="input w-full rounded-2xl shadow-2xl "
+                      type="text"
+                      placeholder="PIC Gedung"
+                      onChange={(e) => setform({ ...form, picgedung: e.target.value })}
+                    />
+                  </label>
+
+                  <label className="floating-label">
+                    <span>Telepon</span>
+                    <input
+                      value={form.telepon}
+                      name="telepon"
+                      className="input w-full rounded-2xl shadow-2xl "
+                      type="text"
+                      placeholder="Telpon/Email"
+                      onChange={(e) => setform({ ...form, telepon: e.target.value })}
+                    />
+                  </label>
+
+                </div>
                 <label className="floating-label">
                   <span>Alamat Lokasi</span>
                   <input
@@ -417,29 +468,8 @@ const filref = useRef<HTMLInputElement | null>(null)
                   />
                 </label>
 
-                <label className="floating-label">
-                  <span>Telepon</span>
-                  <input
-                    value={form.telepon}
-                    name="telepon"
-                    className="input w-full rounded-2xl shadow-2xl "
-                    type="text"
-                    placeholder="Telpon/Email"
-                    onChange={(e) => setform({ ...form, telepon: e.target.value })}
-                  />
-                </label>
 
-                <label className="floating-label">
-                  <span >Pic Gedung</span>
-                  <input
-                    value={form.picgedung}
-                    name="picgedung"
-                    className="input w-full rounded-2xl shadow-2xl "
-                    type="text"
-                    placeholder="PIC Gedung"
-                    onChange={(e) => setform({ ...form, picgedung: e.target.value })}
-                  />
-                </label>
+
 
 
                 <div className='grid grid-cols-2 gap-1'>
@@ -485,12 +515,12 @@ const filref = useRef<HTMLInputElement | null>(null)
                   </label>
                   <label className="floating-label">
                     <span>Pintu Keluar</span>
-                  <input onChange={(e) => setform({ ...form, pk: e.target.value })} value={form.pk} type="number" min={0} max={10} className="input w-full rounded-2xl shadow-2xl " placeholder='PK' />
+                    <input onChange={(e) => setform({ ...form, pk: e.target.value })} value={form.pk} type="number" min={0} max={10} className="input w-full rounded-2xl shadow-2xl " placeholder='PK' />
                   </label>
                   <label className="floating-label">
                     <span>Pintu Masuk</span>
-                  <input onChange={(e) => setform({ ...form, pm: e.target.value })} value={form.pm} type="number" min={0} max={10} className="input w-full rounded-2xl shadow-2xl " placeholder='PM' />
-                </label>
+                    <input onChange={(e) => setform({ ...form, pm: e.target.value })} value={form.pm} type="number" min={0} max={10} className="input w-full rounded-2xl shadow-2xl " placeholder='PM' />
+                  </label>
                 </div>
                 <label className="floating-label">
                   <span>Kondisi</span>
@@ -569,28 +599,35 @@ const filref = useRef<HTMLInputElement | null>(null)
                 <div className="grid sm:grid-cols-3 py-3">
                   <label className="floating-label">
                     <span>Foto-1</span>
-                    <input ref={filref} type="file" name="foto1"  onChange={(e) => setform({ ...form, foto1: e.target.files?.[0] || undefined})} />
+                    <input ref={filref} type="file" name="foto1" onChange={(e) => setform({ ...form, foto1: e.target.files?.[0] || undefined })} />
                   </label>
-                
-
+                  <label className="floating-label">
+                    <span>Foto-2</span>
+                    <input ref={filref2} type="file" name="foto2" onChange={(e) => setform({ ...form, foto2: e.target.files?.[0] || undefined })} />
+                  </label>
+                  <label className="floating-label">
+                    <span>Foto-3</span>
+                    <input ref={filref3} type="file" name="foto3" onChange={(e) => setform({ ...form, foto3: e.target.files?.[0] || undefined })} />
+                  </label>
                 </div>
+
                 <label className="floating-label">
-                    <span>Keterangan</span>
-                <textarea
-                  value={form.keterangan}
-                  onChange={(e) => setform({ ...form, keterangan: e.target.value })}
-                  name="keterangan"
-                  className="textarea w-full rounded-2xl shadow-2xl "
-                  placeholder="Keterangan Canvasing"
-                  maxLength={200}
-                />
+                  <span>Keterangan</span>
+                  <textarea
+                    value={form.keterangan}
+                    onChange={(e) => setform({ ...form, keterangan: e.target.value })}
+                    name="keterangan"
+                    className="textarea w-full rounded-2xl shadow-2xl "
+                    placeholder="Keterangan Canvasing"
+                    maxLength={200}
+                  />
                 </label>
                 <div className="flex gap-3">
                   <button className="btn btn-success hover:bg-yellow-500  info btn-sm w-32 rounded-3xl ">{tombol}</button>
-                 
+
                 </div>
               </form>
-               <button onClick={() => closemodal()} className="btn btn-error hover:bg-yellow-500  info btn-sm w-32 rounded-3xl ">close</button>
+
 
             </div>
           </div>

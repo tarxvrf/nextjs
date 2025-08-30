@@ -30,6 +30,22 @@ console.log(data.data.foto1)
               <h1 className="card-title">FOTO 1 </h1>
             </div>
           </div>
+           <div className="card bg-base-100  shadow-lg hover:shadow-xl sm:hover:scale-150  hover:z-15  transition-all duration-200">
+            <figure className="">
+              <Image width={500} height={500} alt="" src={data.data.foto2 ===""?`/images/window.svg`:`http://localhost:8080/${data.data.foto2}`} />
+            </figure>
+            <div className="card-body">
+              <h1 className="card-title">FOTO 2 </h1>
+            </div>
+          </div>
+           <div className="card bg-base-100  shadow-lg hover:shadow-xl sm:hover:scale-150  hover:z-15  transition-all duration-200">
+            <figure className="">
+              <Image width={500} height={500} alt="" src={data.data.foto3 ===""?`/images/window.svg`:`http://localhost:8080/${data.data.foto3}`} />
+            </figure>
+            <div className="card-body">
+              <h1 className="card-title">FOTO 3 </h1>
+            </div>
+          </div>
         </div>
 
         <div className="pb-3 border py-2 px-2 rounded-xl shadow-lg">
@@ -48,20 +64,20 @@ console.log(data.data.foto1)
                 <label className="block text-sm font-medium text-gray-600 mb-1">
                   FollowUp 1
                 </label>
-                <p className="overflow-hidden">
-
+                <p className="break-words">
+              {data.data.fu1}
                 </p>
               </div>
               <div className="border rounded-lg p-3 w-full bg-white shadow-sm">
                 <label className="label">FollowUp 2</label>
                 <p className="break-words">
-
+        {data.data.fu2}
                 </p>
               </div>
               <div className="border rounded-lg p-3 w-full bg-white shadow-sm">
                 <label className="label">FollowUp 3</label>
                 <p className="break-words">
-
+                
                 </p>
               </div>
             </div>
