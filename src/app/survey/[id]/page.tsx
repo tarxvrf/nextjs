@@ -24,7 +24,7 @@ console.log(data.data.foto1)
         <div className="grid sm:grid-cols-3 sm:gap-6  "  >
           <div className="card bg-base-100  shadow-lg hover:shadow-xl sm:hover:scale-150  hover:z-15  transition-all duration-200">
             <figure className="">
-              <Image width={500} height={500} alt="" src={data.data.foto1 ===""?`/images/window.svg`:`http://localhost:8080/${data.data.foto1}`} />
+              <Image width={500} height={500} alt="" src={data.data.foto1 ===""?`/images/window.svg`:`https://go-download.up.railway.app/{data.data.foto1}`} />
             </figure>
             <div className="card-body">
               <h1 className="card-title">FOTO 1 </h1>
@@ -32,7 +32,7 @@ console.log(data.data.foto1)
           </div>
            <div className="card bg-base-100  shadow-lg hover:shadow-xl sm:hover:scale-150  hover:z-15  transition-all duration-200">
             <figure className="">
-              <Image width={500} height={500} alt="" src={data.data.foto2 ===""?`/images/window.svg`:`http://localhost:8080/${data.data.foto2}`} />
+              <Image width={500} height={500} alt="" src={data.data.foto2 ===""?`/images/window.svg`:`https://go-download.up.railway.app/${data.data.foto2}`} />
             </figure>
             <div className="card-body">
               <h1 className="card-title">FOTO 2 </h1>
@@ -40,7 +40,7 @@ console.log(data.data.foto1)
           </div>
            <div className="card bg-base-100  shadow-lg hover:shadow-xl sm:hover:scale-150  hover:z-15  transition-all duration-200">
             <figure className="">
-              <Image width={500} height={500} alt="" src={data.data.foto3 ===""?`/images/window.svg`:`http://localhost:8080/${data.data.foto3}`} />
+              <Image width={500} height={500} alt="" src={data.data.foto3 ===""?`/images/window.svg`:`https://go-download.up.railway.app/${data.data.foto3}`} />
             </figure>
             <div className="card-body">
               <h1 className="card-title">FOTO 3 </h1>

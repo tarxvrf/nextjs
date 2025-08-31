@@ -5,8 +5,8 @@ const nextConfig: NextConfig = {
     images: {
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: 'localhost',
+        protocol: 'https',
+        hostname: 'go-download.up.railway.app',
         port: '8080',
         pathname: '/uploads/**',
       },
