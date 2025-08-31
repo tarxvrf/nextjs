@@ -125,6 +125,7 @@ function Data() {
     setsearch("");
     setstatus("");
     settanggal("");
+    setmarketing("")
   };
 
   // END Logic Filter//
@@ -218,7 +219,7 @@ function Data() {
 
   if (iserrorhapus) return <div>error hapus data</div>;
 
-  if (isLoading) return <div>Loading...</div>;
+  
 
   return (
     <div className="w-full mx-auto px-4 py-10">
