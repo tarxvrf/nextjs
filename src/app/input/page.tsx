@@ -223,7 +223,7 @@ function Page() {
                         <option value="Batal">Batal</option>
                         <option value="Deal">Deal</option>
                     </select>
-                    <input type="file" ref={filref} name='foto1' onChange={(e) => setform({ ...form, foto1: e.target.files?.[0] || undefined})} />
+                    <input type="file" ref={filref} name='foto1'accept="image/*" capture={"environment"} onChange={(e) => setform({ ...form, foto1: e.target.files?.[0] || undefined})} />
                     <textarea
 
                         value={form.keterangan}

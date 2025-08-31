@@ -600,15 +600,15 @@ function Data() {
                 <div className="grid sm:grid-cols-3 py-3">
                   <label className="floating-label">
                     <span>Foto-1</span>
-                    <input ref={filref} type="file" name="foto1" onChange={(e) => setform({ ...form, foto1: e.target.files?.[0] || undefined })} />
+                    <input ref={filref} type="file" name="foto1" accept="image/*" capture={"environment"} onChange={(e) => setform({ ...form, foto1: e.target.files?.[0] || undefined })} />
                   </label>
                   <label className="floating-label">
                     <span>Foto-2</span>
-                    <input ref={filref2} type="file" name="foto2" onChange={(e) => setform({ ...form, foto2: e.target.files?.[0] || undefined })} />
+                    <input ref={filref2} type="file" name="foto2" accept="image/*" capture={"environment"} onChange={(e) => setform({ ...form, foto2: e.target.files?.[0] || undefined })} />
                   </label>
                   <label className="floating-label">
                     <span>Foto-3</span>
-                    <input ref={filref3} type="file" name="foto3" onChange={(e) => setform({ ...form, foto3: e.target.files?.[0] || undefined })} />
+                    <input ref={filref3} type="file" name="foto3" accept="image/*" capture={"environment"} onChange={(e) => setform({ ...form, foto3: e.target.files?.[0] || undefined })} />
                   </label>
                 </div>
 
