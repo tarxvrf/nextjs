@@ -36,7 +36,7 @@ export const Postdata = async (form: {
   console.log(form.foto1)
   formdata.append("keterangan", form.keterangan)
 
-  const res = await fetch("http://localhost:8080/kirim", {
+  const res = await fetch("https://go-download.up.railway.app/kirim", {
     method: "POST",
 
     body: formdata,

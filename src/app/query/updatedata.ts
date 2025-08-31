@@ -44,7 +44,7 @@ export const Updatedata = async (form: {
   if (form.foto3) formdata.append("foto3", form.foto3)
   formdata.append("keterangan", form.keterangan)
   console.log(formdata.getAll)
-  const res = await fetch(`http://localhost:8080/edit/${form.id}`, {
+  const res = await fetch(`https://go-download.up.railway.app/edit/${form.id}`, {
     method: "PUT",
     body: formdata
 

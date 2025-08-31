@@ -1,6 +1,6 @@
 
 export const Fetchdata = async () => {
-      const res = await fetch('http://localhost:8080/users')
+      const res = await fetch('https://go-download.up.railway.app/users')
       const data = await res.json()
   if (!res.ok) throw new Error('Failed to fetch')
   return data.data

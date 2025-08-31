@@ -8,7 +8,7 @@ interface Pageprops {
 async function page({ params }: Pageprops) {
 
   const { id } = await params
-  const res = await fetch(`http://localhost:8080/users/${id}`, {
+  const res = await fetch(`https://go-download.up.railway.app/users/${id}`, {
     cache: "no-store", // biar data selalu fresh
   });
   const data = await res.json();
