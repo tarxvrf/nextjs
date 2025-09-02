@@ -38,7 +38,7 @@ export const Postdata = async (form: {
 
   const res = await fetch("https://go-download.up.railway.app/kirim", {
     method: "POST",
-
+    credentials:"include",
     body: formdata,
   });
   console.log(formdata)
