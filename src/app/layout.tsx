@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
 import "./globals.css";
 
 import Provider from "@/provider";
 
-const popin = Poppins({
-  variable: "--font-poppins",
-  weight: "100",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,7 +17,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" data-theme="light">
-      <body className={`${popin.variable}  antialiased`}>
+      <body >
         <Provider>
         {children}
         </Provider>

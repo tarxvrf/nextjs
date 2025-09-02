@@ -71,7 +71,7 @@ function Data() {
   const [form, setform] = useState(initform);
   // LIHAT DAATA
 
-  const {data,error} = useQuery<Formtype[]>({
+  const {data} = useQuery<Formtype[]>({
     queryKey: ["message"],
     queryFn: Fetchdata,    
     refetchInterval: 2000,
