@@ -226,7 +226,7 @@ function Data() {
   
   async function logout(event: FormEvent){
     event.preventDefault()
-    const res = await fetch(`http://localhost:8080/logout`,{
+    const res = await fetch(`https://go-download.up.railway.app/logout`,{
       method:"POST",
       credentials:"include"
     })
