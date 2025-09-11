@@ -5,7 +5,7 @@ export const login = async (form: { username: string; password: string }) => {
   formdata.append("username", form.username);
   formdata.append("password", form.password);
 
-  const res = await fetch(`https://go-download.up.railway.app/login`, {
+  const res = await fetch(`http://localhost:8080/login`, {
     method: "POST",
     body: formdata,
     credentials:"include"

@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 export const Fetchdata = async () => {
-  const res = await fetch("https://go-download.up.railway.app/users", {
+  const res = await fetch("http://localhost:8080/users", {
     credentials: "include",
     cache: "no-store",
   });
