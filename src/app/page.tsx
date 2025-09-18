@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { login } from "./query/login";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 type formtype = {
   username: string;
   password: string;
@@ -24,8 +25,20 @@ export default function LoginPage() {
     
     mutationFn: (form: formtype) => login(form),
     onSuccess: ()=>{
+      Swal.fire({
+        title:"Login Success",
+        icon:"success",
+        draggable:false
+      })
          router.push("/dashboard");
-    },   
+    },
+    onError:()=>{
+      Swal.fire({
+        title:"Uppss Password atau Email Salah",
+        icon:"error",
+        draggable:false
+      })
+    }
 
   });
   const handleSubmit = async (e: React.FormEvent) => {

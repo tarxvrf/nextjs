@@ -5,6 +5,7 @@ export const Postdata = async (form: {
   namalokasi: string,
   alamatlokasi: string,
   telepon: string,
+  tender:string,
   picgedung: string,
   tanggal: string,
   operator: string,
@@ -22,6 +23,7 @@ export const Postdata = async (form: {
   formdata.append("namalokasi", form.namalokasi)
   formdata.append("alamatlokasi", form.alamatlokasi)
   formdata.append("telepon", form.telepon)
+  formdata.append("tender",form.tender)
   formdata.append("picgedung", form.picgedung)
   formdata.append("tanggal", form.tanggal)
   formdata.append("operator", form.operator)
@@ -33,7 +35,6 @@ export const Postdata = async (form: {
   formdata.append("status", form.status)
   formdata.append("foto1",form.foto1 as File ?? undefined)
   //
-  console.log(form.foto1)
   formdata.append("keterangan", form.keterangan)
 
   const res = await fetch("http://localhost:8080/kirim", {

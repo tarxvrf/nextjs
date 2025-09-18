@@ -10,40 +10,38 @@ import Link from "next/link";
 import dayjs from "dayjs";
 import { IoCloseCircle } from "react-icons/io5";
 import { useRouter } from "next/navigation";
-
+import Swal from "sweetalert2";
 
 function Data() {
-  
- 
-
-  const router = useRouter()
-  const filref = useRef<HTMLInputElement | null>(null)
-  const filref2 = useRef<HTMLInputElement | null>(null)
-  const filref3 = useRef<HTMLInputElement | null>(null)
+  const router = useRouter();
+  const filref = useRef<HTMLInputElement | null>(null);
+  const filref2 = useRef<HTMLInputElement | null>(null);
+  const filref3 = useRef<HTMLInputElement | null>(null);
 
   type Formtype = {
     id: number;
-    marketing: string,
-    namalokasi: string,
-    alamatlokasi: string,
-    telepon: string,
-    picgedung: string,
-    tanggal: string,
-    operator: string,
-    sistemparkir: string,
-    pk: string,
-    pm: string,
-    fu1: string,
-    fu2: string,
-    fu3: string,
-    kondisi: string,
-    kontrak: string,
-    status: string,
-    foto1: File | undefined,
-    foto2: File | undefined,
-    foto3: File | undefined,
-    keterangan: string,
-  }
+    marketing: string;
+    namalokasi: string;
+    alamatlokasi: string;
+    telepon: string;
+    tender: string;
+    picgedung: string;
+    tanggal: string;
+    operator: string;
+    sistemparkir: string;
+    pk: string;
+    pm: string;
+    fu1: string;
+    fu2: string;
+    fu3: string;
+    kondisi: string;
+    kontrak: string;
+    status: string;
+    foto1: File | undefined;
+    foto2: File | undefined;
+    foto3: File | undefined;
+    keterangan: string;
+  };
 
   const initform: Formtype = {
     id: 0,
@@ -51,6 +49,7 @@ function Data() {
     namalokasi: "",
     alamatlokasi: "",
     telepon: "",
+    tender: "",
     picgedung: "",
     tanggal: "",
     operator: "",
@@ -71,20 +70,17 @@ function Data() {
   const [form, setform] = useState(initform);
   // LIHAT DAATA
 
-  const {data} = useQuery<Formtype[]>({
+  const { data } = useQuery<Formtype[]>({
     queryKey: ["message"],
-    queryFn: Fetchdata,    
+    queryFn: Fetchdata,
     refetchInterval: 2000,
   });
-
 
   const [status, setstatus] = useState("");
   const [search, setsearch] = useState("");
   const [startdate, settanggal] = useState("");
   const [bulan, setbulan] = useState("");
-  const [smarketing, setmarketing] = useState("")
-
-
+  const [smarketing, setmarketing] = useState("");
 
   const capaionprogres = useMemo(() => {
     return data?.filter((item) => item.status === "Onprogres").length;
@@ -112,7 +108,7 @@ function Data() {
       const bytanggal = startdate === item.tanggal || startdate === "";
       const bybulan =
         bulan === dayjs(item.tanggal).format("MMMM") || bulan === "";
-      const bymarketing = smarketing === item.marketing || smarketing === ""
+      const bymarketing = smarketing === item.marketing || smarketing === "";
 
       return bysearch && bystatus && bytanggal && bybulan && bymarketing;
     });
@@ -130,7 +126,7 @@ function Data() {
     setsearch("");
     setstatus("");
     settanggal("");
-    setmarketing("")
+    setmarketing("");
   };
 
   // END Logic Filter//
@@ -147,8 +143,26 @@ function Data() {
   });
   const hapusdata = (e: React.FormEvent, id: number) => {
     e.preventDefault();
-    console.log(id);
+   // console.log(id);
+  Swal.fire({
+  title: "Are you sure?",
+  text: "You won't be able to revert this!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, delete it!"
+}).then((result) => {
+  if (result.isConfirmed) {
     hapus({ id: id });
+    Swal.fire({
+      title: "Deleted!",
+      text: "Your file has been deleted.",
+      icon: "success"
+    });
+  }
+});
+    
   };
 
   // Update Data
@@ -167,33 +181,55 @@ function Data() {
 
       setform(initform);
       if (filref.current) {
-        filref.current.value = ""
+        filref.current.value = "";
       }
 
       if (filref2.current) {
-        filref2.current.value = ""
+        filref2.current.value = "";
       }
       if (filref3.current) {
-        filref3.current.value = ""
+        filref3.current.value = "";
       }
     }
-
   }
 
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
   const openmodal = () => {
-    modalRef.current?.showModal()
-  }
+    modalRef.current?.showModal();
+  };
 
   const closemodal = () => {
-    modalRef.current?.close()
-  }
+    modalRef.current?.close();
+  };
   const Edit = (
-    e: React.FormEvent, id: number, marketing: string, namalokasi: string, alamatlokasi: string, telepon: string, picgedung: string, tanggal: string, operator: string, sistemparkir: string, pk: string, pm: string, fu1: string, fu2: string, fu3: string, kondisi: string, kontrak: string, status: string, foto1: File | undefined, foto2: File | undefined, foto3: File | undefined, keterangan: string) => {
+    e: React.FormEvent,
+    id: number,
+    marketing: string,
+    namalokasi: string,
+    alamatlokasi: string,
+    telepon: string,
+    tender: string,
+    picgedung: string,
+    tanggal: string,
+    operator: string,
+    sistemparkir: string,
+    pk: string,
+    pm: string,
+    fu1: string,
+    fu2: string,
+    fu3: string,
+    kondisi: string,
+    kontrak: string,
+    status: string,
+    foto1: File | undefined,
+    foto2: File | undefined,
+    foto3: File | undefined,
+    keterangan: string
+  ) => {
     e.preventDefault();
     settombol("Update");
-    openmodal()
+    openmodal();
     setform({
       ...form,
       id,
@@ -201,6 +237,7 @@ function Data() {
       namalokasi,
       alamatlokasi,
       telepon,
+      tender,
       picgedung,
       tanggal,
       operator,
@@ -218,34 +255,41 @@ function Data() {
       foto3,
       keterangan,
     });
-
   };
 
-
   if (iserrorhapus) return <div>error hapus data</div>;
-  
-  async function logout(event: FormEvent){
-    event.preventDefault()
-    const res = await fetch(`http://localhost:8080/logout`,{
-      method:"POST",
-      credentials:"include"
-    })
-    if(res.ok){
-      router.push("/")
+
+  async function logout(event: FormEvent) {
+    event.preventDefault();
+    const res = await fetch(`http://localhost:8080/logout`, {
+      method: "POST",
+      credentials: "include",
+    });
+    if (res.ok) {
+      Swal.fire({
+        title:"Sampai Jumpa",
+        icon:"success",
+        draggable:false
+      })
+      router.push("/");
     }
   }
-  
- 
+
   return (
     <div className="w-full mx-auto px-4 py-10">
-      <button onClick={logout}>logout</button>
+      <div className="flex gap-3 pb-3">
+        <button className="btn btn-info btn-sm" onClick={logout}>
+          Home
+        </button>
+        <button className="btn btn-error btn-sm" onClick={logout}>
+          logout
+        </button>
+      </div>
 
       <div>
-
         {/** PENCARIAN **/}
         <div>
-
-          <form className="grid gap-2 sm:flex" >
+          <form className="grid gap-2 sm:flex">
             <input
               value={search}
               type="text"
@@ -263,7 +307,8 @@ function Data() {
               <option value="">--Pilih Marketing--</option>
               <option value="Wiwit">Wiwit</option>
               <option value="Candra">Candra</option>
-
+              <option value="Rohmat">Rohmat</option>
+              <option value="Fairus">Fairus</option>
             </select>
             <select
               onChange={(e) => setstatus(e.target.value)}
@@ -300,7 +345,10 @@ function Data() {
               />
             </label>
 
-            <button className="btn btn-error text-xs lg:w-32" onClick={handleclear}>
+            <button
+              className="btn btn-warning btn-sm mt-1"
+              onClick={handleclear}
+            >
               clear
             </button>
           </form>
@@ -312,15 +360,15 @@ function Data() {
             {/* head */}
             <thead>
               <tr className="border">
-                <th >Marketing</th>
+                <th>Marketing</th>
                 <th>Nama lokasi</th>
                 <th>Alamat Lokasi</th>
                 <th>No telpon</th>
+                <th>Tender</th>
                 <th>PIC Gedung</th>
                 <th>Tanggal</th>
                 <th>Status</th>
                 <th>Keterangan</th>
-
               </tr>
             </thead>
             <tbody className="border">
@@ -328,17 +376,19 @@ function Data() {
               {filtered?.map((item, index) => (
                 <tr key={index} className="bg-base-200 pb-3 ">
                   <td key={index}>{item.marketing}</td>
-                  <td>  <Link
-                    className="text-blue-600 font-bold "
-                    href={`/survey/${item.id}`}
-                    target="_blank"
-                  >{item.namalokasi}</Link></td>
                   <td>
-
-                    {item.alamatlokasi}
-
+                    {" "}
+                    <Link
+                      className="text-blue-600 font-bold "
+                      href={`/survey/${item.id}`}
+                      target="_blank"
+                    >
+                      {item.namalokasi}
+                    </Link>
                   </td>
+                  <td>{item.alamatlokasi}</td>
                   <td>{item.telepon}</td>
+                  <td>{item.tender}</td>
                   <td>{item.picgedung}</td>
                   <td>{dayjs(item.tanggal).format("DD-MM-YYYY")}</td>
                   <td>{item.status}</td>
@@ -364,6 +414,7 @@ function Data() {
                           item.namalokasi,
                           item.alamatlokasi,
                           item.telepon,
+                          item.tender,
                           item.picgedung,
                           item.tanggal,
                           item.operator,
@@ -379,7 +430,7 @@ function Data() {
                           item.foto1,
                           item.foto2,
                           item.foto3,
-                          item.keterangan,
+                          item.keterangan
                         )
                       }
                     >
@@ -410,21 +461,22 @@ function Data() {
 
         <dialog ref={modalRef} id="my_modal_1" className="modal ">
           <div className="modal-box max-w-4xl  ">
-            <div className='grid w-full px-2 py-2  '>
+            <div className="grid w-full px-2 py-2  ">
               <div className="relative pt-5">
                 <div className="absolute right-2 bottom-0">
-                  <IoCloseCircle onClick={() => closemodal()}  className="text-error text-4xl"/>
-                     </div>
-
+                  <IoCloseCircle
+                    onClick={() => closemodal()}
+                    className="text-error text-4xl"
+                  />
+                </div>
               </div>
-              <form
-                className="grid gap-3 "
-                onSubmit={submitdata}
-              >
+              <form className="grid gap-3 " onSubmit={submitdata}>
                 <label className="floating-label ">
                   <span>Marketing</span>
                   <select
-                    onChange={(e) => setform({ ...form, marketing: e.target.value })}
+                    onChange={(e) =>
+                      setform({ ...form, marketing: e.target.value })
+                    }
                     value={form.marketing}
                     name="marketing"
                     className="select rounded-2xl "
@@ -432,6 +484,8 @@ function Data() {
                     <option value="">--Pilih Marketing--</option>
                     <option value="Wiwit">Wiwit</option>
                     <option value="Candra">Candra</option>
+                    <option value="Rohmat">Rohmat</option>
+                    <option value="Fairus">Fairus</option>
                   </select>
                 </label>
 
@@ -442,21 +496,25 @@ function Data() {
                     className="input w-full rounded-2xl shadow-2xl "
                     type="text"
                     placeholder="Nama Lokasi"
-                    onChange={(e) => setform({ ...form, namalokasi: e.target.value })}
+                    onChange={(e) =>
+                      setform({ ...form, namalokasi: e.target.value })
+                    }
                   />
                   <span>Nama Lokasi</span>
                 </label>
 
                 <div className="grid sm:grid-cols-2 gap-2">
                   <label className="floating-label">
-                    <span >Pic Gedung</span>
+                    <span>Pic Gedung</span>
                     <input
                       value={form.picgedung}
                       name="picgedung"
                       className="input w-full rounded-2xl shadow-2xl "
                       type="text"
                       placeholder="PIC Gedung"
-                      onChange={(e) => setform({ ...form, picgedung: e.target.value })}
+                      onChange={(e) =>
+                        setform({ ...form, picgedung: e.target.value })
+                      }
                     />
                   </label>
 
@@ -468,10 +526,11 @@ function Data() {
                       className="input w-full rounded-2xl shadow-2xl "
                       type="text"
                       placeholder="Telpon/Email"
-                      onChange={(e) => setform({ ...form, telepon: e.target.value })}
+                      onChange={(e) =>
+                        setform({ ...form, telepon: e.target.value })
+                      }
                     />
                   </label>
-
                 </div>
                 <label className="floating-label">
                   <span>Alamat Lokasi</span>
@@ -481,24 +540,23 @@ function Data() {
                     className="input w-full rounded-2xl shadow-2xl "
                     type="text"
                     placeholder="Alamat Lokasi"
-                    onChange={(e) => setform({ ...form, alamatlokasi: e.target.value })}
+                    onChange={(e) =>
+                      setform({ ...form, alamatlokasi: e.target.value })
+                    }
                   />
                 </label>
 
-
-
-
-
-                <div className='grid grid-cols-2 gap-1'>
+                <div className="grid grid-cols-2 gap-1">
                   <label className="floating-label">
                     <span>Tanggal</span>
                     <input
                       type="date"
                       name="tanggal"
                       value={form.tanggal}
-                      onChange={(e) => setform({ ...form, tanggal: e.target.value })}
+                      onChange={(e) =>
+                        setform({ ...form, tanggal: e.target.value })
+                      }
                       className="input max-w-sm rounded-2xl shadow-2xl "
-
                     />
                   </label>
                   <label className="floating-label ">
@@ -507,18 +565,21 @@ function Data() {
                       type="input"
                       name="operator"
                       value={form.operator}
-                      onChange={(e) => setform({ ...form, operator: e.target.value })}
+                      onChange={(e) =>
+                        setform({ ...form, operator: e.target.value })
+                      }
                       className="input max-w-sm rounded-2xl shadow-2xl bg-amber "
-                      placeholder='Operator'
-
-                    /></label>
+                      placeholder="Operator"
+                    />
+                  </label>
                 </div>
-                <div className='grid sm:grid-cols-3 gap-1'>
-
+                <div className="grid sm:grid-cols-3 gap-1">
                   <label className="floating-label">
                     <span>Sistem Parkir</span>
                     <select
-                      onChange={(e) => setform({ ...form, sistemparkir: e.target.value })}
+                      onChange={(e) =>
+                        setform({ ...form, sistemparkir: e.target.value })
+                      }
                       name="sistemparkir"
                       className="select w-full rounded-2xl shadow-2xl "
                       value={form.sistemparkir}
@@ -532,11 +593,27 @@ function Data() {
                   </label>
                   <label className="floating-label">
                     <span>Pintu Keluar</span>
-                    <input onChange={(e) => setform({ ...form, pk: e.target.value })} value={form.pk} type="number" min={0} max={10} className="input w-full rounded-2xl shadow-2xl " placeholder='PK' />
+                    <input
+                      onChange={(e) => setform({ ...form, pk: e.target.value })}
+                      value={form.pk}
+                      type="number"
+                      min={0}
+                      max={10}
+                      className="input w-full rounded-2xl shadow-2xl "
+                      placeholder="PK"
+                    />
                   </label>
                   <label className="floating-label">
                     <span>Pintu Masuk</span>
-                    <input onChange={(e) => setform({ ...form, pm: e.target.value })} value={form.pm} type="number" min={0} max={10} className="input w-full rounded-2xl shadow-2xl " placeholder='PM' />
+                    <input
+                      onChange={(e) => setform({ ...form, pm: e.target.value })}
+                      value={form.pm}
+                      type="number"
+                      min={0}
+                      max={10}
+                      className="input w-full rounded-2xl shadow-2xl "
+                      placeholder="PM"
+                    />
                   </label>
                 </div>
                 <label className="floating-label">
@@ -545,9 +622,11 @@ function Data() {
                     type="input"
                     value={form.kondisi}
                     name="kondisi"
-                    onChange={(e) => setform({ ...form, kondisi: e.target.value })}
+                    onChange={(e) =>
+                      setform({ ...form, kondisi: e.target.value })
+                    }
                     className="input w-full rounded-2xl shadow-2xl "
-                    placeholder='Kondisi Lokasi'
+                    placeholder="Kondisi Lokasi"
                   />
                 </label>
 
@@ -557,15 +636,19 @@ function Data() {
                     type="input"
                     name="kontrak"
                     value={form.kontrak}
-                    onChange={(e) => setform({ ...form, kontrak: e.target.value })}
+                    onChange={(e) =>
+                      setform({ ...form, kontrak: e.target.value })
+                    }
                     className="input w-full rounded-2xl shadow-2xl "
-                    placeholder='Akhir Kontrak'
+                    placeholder="Akhir Kontrak"
                   />
                 </label>
                 <label className="floating-label">
                   <span>Status</span>
                   <select
-                    onChange={(e) => setform({ ...form, status: e.target.value })}
+                    onChange={(e) =>
+                      setform({ ...form, status: e.target.value })
+                    }
                     className="select w-full rounded-2xl shadow-2xl "
                     value={form.status}
                     name="status"
@@ -586,7 +669,7 @@ function Data() {
                     value={form.fu1}
                     onChange={(e) => setform({ ...form, fu1: e.target.value })}
                     className="input w-full rounded-2xl shadow-2xl "
-                    placeholder='Follow Up 1'
+                    placeholder="Follow Up 1"
                   />
                 </label>
 
@@ -598,7 +681,7 @@ function Data() {
                     value={form.fu2}
                     onChange={(e) => setform({ ...form, fu2: e.target.value })}
                     className="input w-full rounded-2xl shadow-2xl "
-                    placeholder='Follow Up2'
+                    placeholder="Follow Up2"
                   />
                 </label>
 
@@ -610,21 +693,57 @@ function Data() {
                     value={form.fu3}
                     onChange={(e) => setform({ ...form, fu3: e.target.value })}
                     className="input w-full rounded-2xl shadow-2xl "
-                    placeholder='Follow Up 3'
+                    placeholder="Follow Up 3"
                   />
                 </label>
                 <div className="grid sm:grid-cols-3 py-3">
                   <label className="floating-label">
                     <span>Foto-1</span>
-                    <input ref={filref} type="file" name="foto1" accept="image/*" capture={"environment"} onChange={(e) => setform({ ...form, foto1: e.target.files?.[0] || undefined })} />
+                    <input
+                      ref={filref}
+                      type="file"
+                      name="foto1"
+                      accept="image/*"
+                      capture={"environment"}
+                      onChange={(e) =>
+                        setform({
+                          ...form,
+                          foto1: e.target.files?.[0] || undefined,
+                        })
+                      }
+                    />
                   </label>
                   <label className="floating-label">
                     <span>Foto-2</span>
-                    <input ref={filref2} type="file" name="foto2" accept="image/*" capture={"environment"} onChange={(e) => setform({ ...form, foto2: e.target.files?.[0] || undefined })} />
+                    <input
+                      ref={filref2}
+                      type="file"
+                      name="foto2"
+                      accept="image/*"
+                      capture={"environment"}
+                      onChange={(e) =>
+                        setform({
+                          ...form,
+                          foto2: e.target.files?.[0] || undefined,
+                        })
+                      }
+                    />
                   </label>
                   <label className="floating-label">
                     <span>Foto-3</span>
-                    <input ref={filref3} type="file" name="foto3" accept="image/*" capture={"environment"} onChange={(e) => setform({ ...form, foto3: e.target.files?.[0] || undefined })} />
+                    <input
+                      ref={filref3}
+                      type="file"
+                      name="foto3"
+                      accept="image/*"
+                      capture={"environment"}
+                      onChange={(e) =>
+                        setform({
+                          ...form,
+                          foto3: e.target.files?.[0] || undefined,
+                        })
+                      }
+                    />
                   </label>
                 </div>
 
@@ -632,7 +751,9 @@ function Data() {
                   <span>Keterangan</span>
                   <textarea
                     value={form.keterangan}
-                    onChange={(e) => setform({ ...form, keterangan: e.target.value })}
+                    onChange={(e) =>
+                      setform({ ...form, keterangan: e.target.value })
+                    }
                     name="keterangan"
                     className="textarea w-full rounded-2xl shadow-2xl "
                     placeholder="Keterangan Canvasing"
@@ -640,21 +761,17 @@ function Data() {
                   />
                 </label>
                 <div className="flex gap-3">
-                  <button className="btn btn-success hover:bg-yellow-500  info btn-sm w-32 rounded-3xl ">{tombol}</button>
-
+                  <button className="btn btn-success hover:bg-yellow-500  info btn-sm w-32 rounded-3xl ">
+                    {tombol}
+                  </button>
                 </div>
               </form>
-
-
             </div>
           </div>
         </dialog>
-
       </div>
     </div>
   );
 }
 
 export default Data;
-
-
